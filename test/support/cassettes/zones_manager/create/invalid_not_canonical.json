@@ -1,0 +1,31 @@
+[
+  {
+    "request": {
+      "body": "{\"soa_edit_api\":\"\",\"soa_edit\":\"\",\"serial\":2016060601,\"records\":[],\"nameservers\":[],\"name\":\"not-canonical-domain.tst\",\"masters\":[],\"kind\":\"Native\",\"account\":null}",
+      "headers": {
+        "X-API-Key": "Locaweb2016"
+      },
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones"
+    },
+    "response": {
+      "body": "{\"error\": \"DNS Name 'not-canonical-domain.tst' is not canonical\"}",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Connection": "close",
+        "Content-Length": "54",
+        "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'",
+        "Content-Type": "application/json",
+        "Server": "PowerDNS/4.0.1",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "deny",
+        "X-Permitted-Cross-Domain-Policies": "none",
+        "X-Xss-Protection": "1; mode=block"
+      },
+      "status_code": 422,
+      "type": "ok"
+    }
+  }
+]

@@ -1,4 +1,4 @@
-defmodule PowerDNSx.Mixfile do
+defmodule PowerDNSex.Mixfile do
   use Mix.Project
 
   def project do

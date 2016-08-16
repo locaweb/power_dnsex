@@ -1,4 +1,4 @@
-# PowerDNSx
+# PowerDNSex
 
 **TODO: Add description**
 

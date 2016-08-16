@@ -1,2 +1,2 @@
-defmodule PowerDNSx do
+defmodule PowerDNSex do
 end
