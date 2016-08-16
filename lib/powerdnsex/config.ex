@@ -1,8 +1,8 @@
-defmodule PowerDNSx.Config do
+defmodule PowerDNSex.Config do
   defstruct url: "",
             token: ""
 
-  alias PowerDNSx.Config
+  alias PowerDNSex.Config
 
   def data do
     set_attr_value = &(Map.put(&2, &1, get_key(&1)))
@@ -30,7 +30,7 @@ defmodule PowerDNSx.Config do
       {:ok, {:system, env_var_name}} -> System.get_env(env_var_name)
       {:ok, value} -> value
       _ ->
-        raise "[PowerDNSx] PowerDNS #{Atom.to_string(key)} not configured."
+        raise "[PowerDNSex] PowerDNS #{Atom.to_string(key)} not configured."
     end
   end
 end
