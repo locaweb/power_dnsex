@@ -26,6 +26,7 @@ defmodule PowerDNSex.ZonesManager do
     server_name
     |> zone_path(zone_name)
     |> HttpClient.delete!
+    |> process_request_response
   end
 
   ###
@@ -42,6 +43,7 @@ defmodule PowerDNSex.ZonesManager do
 
   defp process_request_response(%Response{body: body, status_code: status}) do
     case status do
+      s when s == 204 -> :ok
       s when s < 300 ->
         body |> Poison.decode!(as: %Zone{rrsets: [
                                           %ResourceRecordSet{

@@ -17,13 +17,11 @@ defmodule PowerDNSex.ZonesManagerTest do
 
   @expected_rrset [
     %RRSet{
-      name: "my-domain.tst.",
+      name: "my-domain.art.",
       ttl: 3600,
       type: "SOA",
       records: [
-        %Record{content: "ns2.my-powerdns.api", disabled: false},
-        %Record{content: "ns1.my-powerdns.api", disabled: false},
-        %Record{content: "a.misconfigured.powerdns.server " <>
+        %Record{content: "a.misconfigured.powerdns.server. " <>
                          "hostmaster.my-domain.art. " <>
                          "2016060601 10800 3600 604800 3600",
                 disabled: false}
@@ -106,18 +104,15 @@ defmodule PowerDNSex.ZonesManagerTest do
     @tag :zones_manager_delete
     test "return given correct params" do
       use_cassette "zones_manager/delete/success" do
-        req_status = ZonesManager.delete("success-delete.com").status_code
-        assert req_status == 204
+        assert ZonesManager.delete("success-delete.com") == :ok
       end
     end
 
     @tag :zones_manager_delete
     test "return error when zone don't exists" do
       use_cassette "zones_manager/delete/not_found" do
-        req = ZonesManager.delete("not_found.com")
-        assert req.status_code == 422
-        assert req.body ==
-          "{\"error\": \"Could not find domain 'not_found.com.'\"}"
+        response = ZonesManager.delete("not_found.com")
+        assert response.error == "Could not find domain 'not_found.com.'"
       end
     end
   end

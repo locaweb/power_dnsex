@@ -9,14 +9,21 @@ defmodule PowerDNSex.RecordsManagerTest do
   @valid_zone %Zone{name: "my-domain.art.",
                     url: "api/v1/servers/localhost/zones/my-domain.art."}
   @new_record %{
-                name: "new-record.my-domain.art.",
-                type: "A",
-                ttl: 86400,
-                content: [
-                  {"127.0.0.1", false},
-                  {"192.168.0.1", true}
-                ]
-              }
+    name: "new-record.my-domain.art.",
+    type: "A",
+    ttl: 86400,
+    records: [
+      {"127.0.0.1", false},
+      {"192.168.0.1", true}
+    ]
+  }
+
+  @updated_record %{
+    name: "updated-record.my-domain.art.",
+    type: "A",
+    ttl: 86800,
+    records: [{"127.0.0.1", true}]
+  }
 
   setup do
    # Config.set_url
@@ -33,7 +40,7 @@ defmodule PowerDNSex.RecordsManagerTest do
     HTTPoison.start
   end
 
-  describe "create{%Zone{}, %Record{}}" do
+  describe "create/2" do
     test "exception given empty zones url" do
       raise_msg = "[Records Manager] Zone URL attribute is empty!"
       assert_raise RuntimeError, raise_msg, fn() ->
@@ -48,4 +55,19 @@ defmodule PowerDNSex.RecordsManagerTest do
     end
   end
 
+  describe "update/2" do
+    @tag :records_manager_update
+    test "exception given empty zones url" do
+      raise_msg = "[Records Manager] Zone URL attribute is empty!"
+      assert_raise RuntimeError, raise_msg, fn() ->
+        RecordsManager.update(%Zone{}, %Record{})
+      end
+    end
+
+    test "the return given correct params" do
+      use_cassette "records_manager/update/success" do
+        assert RecordsManager.update(@valid_zone, @updated_record) == :ok
+      end
+    end
+  end
 end
