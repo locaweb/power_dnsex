@@ -1,11 +1,11 @@
-defmodule PowerDNSx.HttpClient do
+defmodule PowerDNSex.HttpClient do
   @moduledoc"""
   Client to do http requests for PowerDns API
   """
 
   use HTTPoison.Base
 
-  alias PowerDNSx.Config
+  alias PowerDNSex.Config
 
   def process_url(url) do
     Config.powerdns_url <> url
