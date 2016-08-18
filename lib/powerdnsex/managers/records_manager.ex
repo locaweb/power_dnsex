@@ -9,12 +9,16 @@ defmodule PowerDNSex.RecordsManager do
     raise "[Records Manager] Zone URL attribute is empty!"
   end
 
-  def create(%Zone{} = zone, %{} = rrset) do
-    rrset = %{rrset | changetype: "REPLACE"}
+  def create(%Zone{} = zone, %{} = rrset_attrs) do
+    rrset_attrs = Map.merge(rrset_attrs, %{changetype: "REPLACE"})
 
     zone.url
-    |> HttpClient.patch!(rrset.as_body(rrset))
+    |> HttpClient.patch!(RRset.as_body(RRset.build(rrset_attrs)))
     |> process_request_response
+  end
+
+  def update(%Zone{} = zone, %{} = rrset_attrs) do
+    create(zone, rrset_attrs)
   end
 
   ###

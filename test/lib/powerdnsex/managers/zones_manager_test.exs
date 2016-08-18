@@ -17,13 +17,11 @@ defmodule PowerDNSex.ZonesManagerTest do
 
   @expected_rrset [
     %RRSet{
-      name: "my-domain.tst.",
+      name: "my-domain.art.",
       ttl: 3600,
       type: "SOA",
       records: [
-        %Record{content: "ns2.my-powerdns.api", disabled: false},
-        %Record{content: "ns1.my-powerdns.api", disabled: false},
-        %Record{content: "a.misconfigured.powerdns.server " <>
+        %Record{content: "a.misconfigured.powerdns.server. " <>
                          "hostmaster.my-domain.art. " <>
                          "2016060601 10800 3600 604800 3600",
                 disabled: false}
