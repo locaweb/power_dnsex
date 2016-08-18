@@ -1,0 +1,31 @@
+[
+  {
+    "request": {
+      "body": "{\"rrsets\":[{\"type\":\"NS\",\"ttl\":86800,\"records\":[{\"disabled\":true,\"content\":\"127.0.0.1\"}],\"name\":\"updated-record.my-domain.art.\",\"changetype\":\"REPLACE\"}]}",
+      "headers": {
+        "X-API-Key": "Locaweb2016"
+      },
+      "method": "patch",
+      "options": [],
+      "request_body": "",
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/my-domain.art."
+    },
+    "response": {
+      "body": "{\"error\": \"Record updated-record.my-domain.art./NS '127.0.0.1': Not in expected format (parsed as '127.0.0.1.')\"}",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Connection": "close",
+        "Content-Length": "113",
+        "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'",
+        "Content-Type": "application/json",
+        "Server": "PowerDNS/4.0.1",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "deny",
+        "X-Permitted-Cross-Domain-Policies": "none",
+        "X-Xss-Protection": "1; mode=block"
+      },
+      "status_code": 422,
+      "type": "ok"
+    }
+  }
+]
