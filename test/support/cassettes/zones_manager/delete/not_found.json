@@ -1,0 +1,31 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "X-API-Key": "Locaweb2016"
+      },
+      "method": "delete",
+      "options": [],
+      "request_body": "",
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/not_found.com"
+    },
+    "response": {
+      "body": "{\"error\": \"Could not find domain 'not_found.com.'\"}",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Connection": "close",
+        "Content-Length": "51",
+        "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'",
+        "Content-Type": "application/json",
+        "Server": "PowerDNS/4.0.1",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "deny",
+        "X-Permitted-Cross-Domain-Policies": "none",
+        "X-Xss-Protection": "1; mode=block"
+      },
+      "status_code": 422,
+      "type": "ok"
+    }
+  }
+]

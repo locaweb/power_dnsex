@@ -101,4 +101,24 @@ defmodule PowerDNSex.ZonesManagerTest do
       end
     end
   end
+
+  describe "ZonesManager.delete/2" do
+    @tag :zones_manager_delete
+    test "return given correct params" do
+      use_cassette "zones_manager/delete/success" do
+        req_status = ZonesManager.delete("success-delete.com").status_code
+        assert req_status == 204
+      end
+    end
+
+    @tag :zones_manager_delete
+    test "return error when zone don't exists" do
+      use_cassette "zones_manager/delete/not_found" do
+        req = ZonesManager.delete("not_found.com")
+        assert req.status_code == 422
+        assert req.body ==
+          "{\"error\": \"Could not find domain 'not_found.com.'\"}"
+      end
+    end
+  end
 end
