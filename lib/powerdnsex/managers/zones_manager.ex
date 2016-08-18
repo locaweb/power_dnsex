@@ -20,6 +20,14 @@ defmodule PowerDNSex.ZonesManager do
     |> process_request_response
   end
 
+  def delete(zone_name, server_name \\ @default_server)
+      when is_bitstring(zone_name) do
+
+    server_name
+    |> zone_path(zone_name)
+    |> HttpClient.delete!
+  end
+
   ###
   # Private
   ###
