@@ -8,10 +8,10 @@
       "method": "delete",
       "options": [],
       "request_body": "",
-      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/not_found.com"
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/it-will-never-exist.on.the.art."
     },
     "response": {
-      "body": "{\"error\": \"Could not find domain 'not_found.com.'\"}",
+      "body": "{\"error\": \"Could not find domain 'it-will-never-exist.on.the.art.'\"}",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Connection": "close",

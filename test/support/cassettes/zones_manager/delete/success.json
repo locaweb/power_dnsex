@@ -8,7 +8,7 @@
       "method": "delete",
       "options": [],
       "request_body": "",
-      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/success-delete.com"
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/my-domain.art."
     },
     "response": {
       "body": "",
