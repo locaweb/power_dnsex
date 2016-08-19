@@ -25,6 +25,11 @@ defmodule PowerDNSex.RecordsManagerTest do
     records: [{"127.0.0.1", true}]
   }
 
+  @record_to_delete %{
+    name: "record-to-delete.my-domain.art.",
+    type: "A",
+  }
+
   @invalid_record %{
     name: "updated-record.my-domain.art.",
     type: "NS",
@@ -99,6 +104,15 @@ defmodule PowerDNSex.RecordsManagerTest do
         error_msg = "Record updated-record.my-domain.art./NS '127.0.0.1': " <>
                     "Not in expected format (parsed as '127.0.0.1.')"
         assert response.error == error_msg
+      end
+    end
+  end
+
+  describe "delete/2" do
+    @tag :records_manager_update
+    test "the return given a correct record" do
+      use_cassette "records_manager/delete/success" do
+        assert RecordsManager.delete(@valid_zone, @record_to_delete) == :ok
       end
     end
   end

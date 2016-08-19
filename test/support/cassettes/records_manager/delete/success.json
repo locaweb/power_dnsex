@@ -1,0 +1,30 @@
+[
+  {
+    "request": {
+      "body": "{\"rrsets\":[{\"type\":\"A\",\"ttl\":null,\"records\":[],\"name\":\"record-to-delete.my-domain.art.\",\"changetype\":\"DELETE\"}]}",
+      "headers": {
+        "X-API-Key": "Locaweb2016"
+      },
+      "method": "patch",
+      "options": [],
+      "request_body": "",
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/my-domain.art."
+    },
+    "response": {
+      "body": "",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Connection": "close",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'",
+        "Server": "PowerDNS/4.0.1",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "deny",
+        "X-Permitted-Cross-Domain-Policies": "none",
+        "X-Xss-Protection": "1; mode=block"
+      },
+      "status_code": 204,
+      "type": "ok"
+    }
+  }
+]

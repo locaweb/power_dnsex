@@ -13,6 +13,8 @@ defmodule PowerDNSex.Models.Record do
     %__MODULE__{content: attrs.content, disabled: attrs.disabled}
   end
 
+  def as_body(nil), do: []
+
   def as_body(content) when is_list(content) do
     Enum.reduce(content, [], &(&2 ++ [as_body(&1)]))
   end
