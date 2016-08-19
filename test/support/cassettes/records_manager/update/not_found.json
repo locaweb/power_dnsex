@@ -1,21 +1,21 @@
 [
   {
     "request": {
-      "body": "",
+      "body": "{\"rrsets\":[{\"type\":\"A\",\"ttl\":86800,\"records\":[{\"disabled\":true,\"content\":\"127.0.0.1\"}],\"name\":\"updated-record.my-domain.art.\",\"changetype\":\"REPLACE\"}]}",
       "headers": {
         "X-API-Key": "Locaweb2016"
       },
-      "method": "delete",
+      "method": "patch",
       "options": [],
       "request_body": "",
-      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/it-will-never-exist.on.the.art."
+      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/not-canonical-domain.tst"
     },
     "response": {
-      "body": "{\"error\": \"Could not find domain 'it-will-never-exist.on.the.art.'\"}",
+      "body": "{\"error\": \"Could not find domain 'not-canonical-domain.tst.'\"}",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Connection": "close",
-        "Content-Length": "51",
+        "Content-Length": "62",
         "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'",
         "Content-Type": "application/json",
         "Server": "PowerDNS/4.0.1",

@@ -104,15 +104,15 @@ defmodule PowerDNSex.ZonesManagerTest do
     @tag :zones_manager_delete
     test "return given correct params" do
       use_cassette "zones_manager/delete/success" do
-        assert ZonesManager.delete("success-delete.com") == :ok
+        assert ZonesManager.delete(@valid_zone_test.name) == :ok
       end
     end
 
     @tag :zones_manager_delete
     test "return error when zone don't exists" do
       use_cassette "zones_manager/delete/not_found" do
-        response = ZonesManager.delete("not_found.com")
-        assert response.error == "Could not find domain 'not_found.com.'"
+        response = ZonesManager.delete(@unknown_name)
+        assert response.error == "Could not find domain '#{@unknown_name}'"
       end
     end
   end
