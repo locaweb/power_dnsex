@@ -1,9 +1,9 @@
-defmodule PowerDNSex.ZonesManagerTest do
+defmodule PowerDNSex.Managers.ZonesManagerTest do
 
   use ExUnit.Case, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  alias PowerDNSex.ZonesManager
+  alias PowerDNSex.Managers.ZonesManager
   alias PowerDNSex.Models.{Zone, Record}
   alias PowerDNSex.Models.ResourceRecordSet, as: RRSet
   alias PowerDNSex.FakeConfig, as: Config
@@ -37,14 +37,14 @@ defmodule PowerDNSex.ZonesManagerTest do
                        rrsets: @expected_rrset}
 
   setup do
-   # Config.set_url
-   # Config.set_token
+    Config.set_url
+    Config.set_token
 
-    pwdns_url_loca = "http://cpro36999.systemintegration.locaweb.com.br/"
-    Application.put_env(:powerdns, :url, pwdns_url_loca)
+   # pwdns_url_loca = "http://cpro36999.systemintegration.locaweb.com.br/"
+   # Application.put_env(:powerdns, :url, pwdns_url_loca)
 
-    pwdns_token_loca = "Locaweb2016"
-    Application.put_env(:powerdns, :token, pwdns_token_loca)
+   # pwdns_token_loca = "Locaweb2016"
+   # Application.put_env(:powerdns, :token, pwdns_token_loca)
 
     ExVCR.Config.cassette_library_dir("test/support/cassettes",
                                       "test/support/custom_cassettes")

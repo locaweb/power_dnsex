@@ -25,6 +25,22 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
     |> Poison.encode!
   end
 
+  def find(rrsets, %{} = attrs) when is_list(rrsets) do
+    Enum.find(rrsets, fn(rrset)->
+      Enum.all?(attrs, fn({attr, attr_value})->
+        if Enum.member?(Map.keys(%__MODULE__{}), attr) do
+          equal_attr?(attr, attr_value, rrset)
+        else
+          Record.find(rrset.records, %{attr => attr_value})
+        end
+      end)
+    end)
+  end
+
+  ###
+  # Private
+  ###
+
   defp set_attrs(rrset, attr_name, attrs) do
     if Map.has_key?(attrs, attr_name) do
       attr_value = case attr_name do
@@ -36,5 +52,9 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
     else
       rrset
     end
+  end
+
+  defp equal_attr?(attr, attr_value, rrset) do
+    Map.get(rrset, attr) == attr_value
   end
 end

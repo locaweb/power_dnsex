@@ -1,4 +1,4 @@
-defmodule PowerDNSex.ZonesManager do
+defmodule PowerDNSex.Managers.ZonesManager do
 
   @default_server "localhost"
 

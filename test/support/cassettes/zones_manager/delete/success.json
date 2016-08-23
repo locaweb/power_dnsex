@@ -3,12 +3,12 @@
     "request": {
       "body": "",
       "headers": {
-        "X-API-Key": "Locaweb2016"
+        "X-API-Key": "S3cr37_70k3n"
       },
       "method": "delete",
       "options": [],
       "request_body": "",
-      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/my-domain.art."
+      "url": "https://my-powerdns.api/api/v1/servers/localhost/zones/my-domain.art."
     },
     "response": {
       "body": "",

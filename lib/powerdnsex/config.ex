@@ -14,12 +14,11 @@ defmodule PowerDNSex.Config do
   end
 
   def powerdns_url do
-    data.url
+     url = data.url
+     if String.ends_with?(url, "/"), do: url, else: url <> "/"
   end
 
-  def powerdns_token do
-    data.token
-  end
+  def powerdns_token, do: data.token
 
   ###
   # Private

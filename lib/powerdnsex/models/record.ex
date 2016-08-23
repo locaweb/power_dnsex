@@ -26,4 +26,12 @@ defmodule PowerDNSex.Models.Record do
   def as_body(record_attrs) when is_tuple(record_attrs) do
     %{content: elem(record_attrs, 0), disabled: elem(record_attrs, 1)}
   end
+
+  def find(records, attrs) when is_list(records) do
+    Enum.find(records, fn(record)->
+      Enum.all?(attrs, fn({attr, attr_value})->
+        Map.get(record, attr) == attr_value
+      end)
+    end)
+  end
 end
