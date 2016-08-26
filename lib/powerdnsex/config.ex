@@ -20,6 +20,8 @@ defmodule PowerDNSex.Config do
 
   def powerdns_token, do: data.token
 
+  def valid?(), do: powerdns_url && powerdns_token
+
   ###
   # Private
   ###

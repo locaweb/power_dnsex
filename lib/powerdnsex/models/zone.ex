@@ -11,6 +11,8 @@ defmodule PowerDNSex.Models.Zone do
             notified_serial: 0, serial: nil, soa_edit: "", soa_edit_api: "",
             url: nil
 
+  @type t :: %__MODULE__{}
+
   def as_body(%__MODULE__{} = zone) do
     get_valid_attrs = fn({attr, value}, body) ->
       if Enum.member?(@body_attrs, attr) do
