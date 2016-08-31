@@ -43,11 +43,11 @@ defmodule PowerDNSex do
   end
 
 
-  @spec show_zone(Zone.t, String.t) :: :ok | {:error, String.t}
+  @spec show_zone(String.t, String.t) :: :ok | {:error, String.t}
   @doc """
   Show / Retrive info of the specific Zone
   """
-  def show_zone(%Zone{} = zone, server_name \\ @default_server) do
+  def show_zone(zone, server_name \\ @default_server) when is_binary(zone) do
     call({:show_zone, zone, server_name})
   end
 
