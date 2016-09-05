@@ -52,11 +52,11 @@ defmodule PowerDNSex do
   end
 
 
-  @spec delete_zone(Zone.t, String.t) :: :ok | {:error, String.t}
+  @spec delete_zone(String.t, String.t) :: :ok | {:error, String.t}
   @doc """
   Delete specific Zone on PowerDNS
   """
-  def delete_zone(%Zone{} = zone, server_name \\ @default_server) do
+  def delete_zone(zone, server_name \\ @default_server) when is_binary(zone) do
     call({:delete_zone, zone, server_name})
   end
 
