@@ -3,12 +3,12 @@
     "request": {
       "body": "{\"rrsets\":[{\"type\":\"NS\",\"ttl\":86800,\"records\":[{\"disabled\":true,\"content\":\"127.0.0.1\"}],\"name\":\"updated-record.my-domain.art.\",\"changetype\":\"REPLACE\"}]}",
       "headers": {
-        "X-API-Key": "Locaweb2016"
+        "X-API-Key": "S3cr37_70k3n"
       },
       "method": "patch",
       "options": [],
       "request_body": "",
-      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones/my-domain.art."
+      "url": "https://my-powerdns.api/api/v1/servers/localhost/zones/my-domain.art."
     },
     "response": {
       "body": "{\"error\": \"Record updated-record.my-domain.art./NS '127.0.0.1': Not in expected format (parsed as '127.0.0.1.')\"}",

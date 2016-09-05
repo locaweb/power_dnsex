@@ -3,12 +3,12 @@
     "request": {
       "body": "{\"soa_edit_api\":\"\",\"soa_edit\":\"\",\"serial\":2016060601,\"records\":[],\"nameservers\":[],\"name\":\"my-domain.art.\",\"masters\":[],\"kind\":\"Native\",\"account\":null}",
       "headers": {
-        "X-API-Key": "Locaweb2016"
+        "X-API-Key": "S3cr37_70k3n"
       },
       "method": "post",
       "options": [],
       "request_body": "",
-      "url": "http://cpro36999.systemintegration.locaweb.com.br/api/v1/servers/localhost/zones"
+      "url": "https://my-powerdns.api/api/v1/servers/localhost/zones"
     },
     "response": {
       "body": "{\"account\": \"\", \"dnssec\": false, \"id\": \"my-domain.art.\", \"kind\": \"Native\", \"last_check\": 0, \"masters\": [], \"name\": \"my-domain.art.\", \"notified_serial\": 0, \"rrsets\": [{\"comments\": [], \"name\": \"my-domain.art.\", \"records\": [{\"content\": \"a.misconfigured.powerdns.server. hostmaster.my-domain.art. 2016060601 10800 3600 604800 3600\", \"disabled\": false}], \"ttl\": 3600, \"type\": \"SOA\"}], \"serial\": 2016060601, \"soa_edit\": \"\", \"soa_edit_api\": \"\", \"url\": \"api/v1/servers/localhost/zones/my-domain.art.\"}",

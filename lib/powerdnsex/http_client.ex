@@ -7,9 +7,7 @@ defmodule PowerDNSex.HttpClient do
 
   alias PowerDNSex.Config
 
-  def process_url(url) do
-    Config.powerdns_url <> url
-  end
+  def process_url(url), do: Config.powerdns_url <> url
 
   defp process_request_headers(headers) do
     custom = ["X-API-Key": Config.powerdns_token]
