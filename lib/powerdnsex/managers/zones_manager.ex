@@ -49,6 +49,8 @@ defmodule PowerDNSex.Managers.ZonesManager do
                                           %ResourceRecordSet{
                                             records: [%Record{}]
                                           }]})
+      s when s == 500 ->
+        %Error{error: "Internal Server Error"}
       s when s >= 300 ->
         body |> Poison.decode!(as: %Error{})
     end
