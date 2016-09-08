@@ -1,5 +1,5 @@
 defmodule PowerDNSex.Models.Error do
-  defstruct [:error]
+  defstruct [:error, :http_status_code]
 
   @type t :: %__MODULE__{error: String.t}
 end

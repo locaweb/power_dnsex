@@ -43,16 +43,19 @@ defmodule PowerDNSex.Managers.ZonesManager do
 
   defp process_request_response(%Response{body: body, status_code: status}) do
     case status do
-      s when s == 204 -> :ok
-      s when s < 300 ->
-        body |> Poison.decode!(as: %Zone{rrsets: [
-                                          %ResourceRecordSet{
-                                            records: [%Record{}]
-                                          }]})
+      s when s == 204 -> {:ok, %{}}
+      s when s < 300 -> {:ok, decode_body(body)}
       s when s == 500 ->
-        %Error{error: "Internal Server Error"}
+        {:error, %Error{error: "Internal Server Error"}, http_status_code: s}
       s when s >= 300 ->
-        body |> Poison.decode!(as: %Error{})
+        error = %{Poison.decode!(body,as: %Error{}) | http_status_code: s}
+        {:error, error}
     end
+  end
+
+  defp decode_body(body) do
+    body
+    |> Poison.decode!(as: %Zone{rrsets:
+                                [%ResourceRecordSet{records: [%Record{}]}]})
   end
 end

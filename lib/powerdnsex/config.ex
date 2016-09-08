@@ -27,7 +27,7 @@ defmodule PowerDNSex.Config do
   ###
 
   defp get_key(key) do
-    case Application.fetch_env(:powerdns, key) do
+    case Application.fetch_env(:powerdnsex, key) do
       {:ok, {:system, env_var_name}} -> System.get_env(env_var_name)
       {:ok, value} -> value
       _ ->
