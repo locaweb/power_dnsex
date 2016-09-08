@@ -28,8 +28,8 @@ defmodule PowerDNSex.Server do
     {:reply, RecordsManager.create(zone, rrset_attrs), state}
   end
 
-  def handle_call({:show_record, zone, rrset_attrs}, _from, state) do
-    {:reply, RecordsManager.show(zone, rrset_attrs), state}
+  def handle_call({:show_record, zone_name, rrset_attrs}, _from, state) do
+    {:reply, RecordsManager.show(zone_name, rrset_attrs), state}
   end
 
   def handle_call({:update_record, zone, rrset_attrs}, _from, state) do

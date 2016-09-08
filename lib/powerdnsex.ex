@@ -72,12 +72,12 @@ defmodule PowerDNSex do
     call({:create_record, zone, rrset_attrs})
   end
 
-  @spec show_record(Zone.t, struct) :: :ok | {:error, String.t}
+  @spec show_record(String.t, struct) :: :ok | {:error, String.t}
   @doc """
-  Show / Retrive info of the specific Record of the given Zone
+  Show / Retrive info of the specific Record of the given Zone name
   """
-  def show_record(%Zone{} = zone, %{} = rrset_attrs) do
-    call({:show_record, zone, rrset_attrs})
+  def show_record(zone_name, %{} = rrset_attrs) do
+    call({:show_record, zone_name, rrset_attrs})
   end
 
   @spec update_record(Zone.t, struct) :: :ok | {:error, String.t}
