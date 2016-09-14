@@ -2,15 +2,7 @@ defmodule PowerDNSex.Models.Record do
   defstruct [:content, :disabled]
 
   def build(attrs) when is_list(attrs) do
-    Enum.reduce(attrs, [], &(&2 ++ [build(&1)]))
-  end
-
-  def build(attrs) when is_tuple(attrs) do
-    %__MODULE__{content: elem(attrs, 0), disabled: elem(attrs, 1)}
-  end
-
-  def build(attrs) when is_map(attrs) do
-    %__MODULE__{content: attrs.content, disabled: attrs.disabled}
+    Enum.reduce(attrs, [], &(&2 ++ [build_item(&1)]))
   end
 
   def as_body(nil), do: []
@@ -33,5 +25,17 @@ defmodule PowerDNSex.Models.Record do
         Map.get(record, attr) == attr_value
       end)
     end)
+  end
+
+  ###
+  # PRIVATE
+  ###
+
+  defp build_item(attrs) when is_tuple(attrs) do
+    %__MODULE__{content: elem(attrs, 0), disabled: elem(attrs, 1)}
+  end
+
+  defp build_item(attrs) when is_map(attrs) do
+    %__MODULE__{content: attrs["content"], disabled: attrs["disabled"]}
   end
 end

@@ -4,7 +4,7 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
 
   defstruct [:name, :type, :ttl, :records, :changetype]
 
-  def build(rrset_attrs) when is_map(rrset_attrs) do
+  def build(%{"records" => records} = rrset_attrs) when is_list(records) do
     rrset = %__MODULE__{}
 
     rrset
@@ -13,6 +13,8 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   def as_body(%__MODULE__{} = rrset) do
+    IO.puts "RRSet: #{inspect rrset}"
+
     %{ rrsets: [
        %{
          name: rrset.name,
@@ -42,13 +44,14 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   ###
 
   defp set_attrs(rrset, attr_name, attrs) do
+    if is_atom(attr_name), do: attr_name = Atom.to_string(attr_name)
     if Map.has_key?(attrs, attr_name) do
       attr_value = case attr_name do
-                        :records -> Record.build(Map.fetch!(attrs, attr_name))
-                        _        -> Map.fetch!(attrs, attr_name)
+                        "records" -> Record.build(Map.fetch!(attrs, attr_name))
+                        _         -> Map.fetch!(attrs, attr_name)
                    end
 
-      %{ rrset | attr_name => attr_value }
+      %{ rrset | String.to_atom(attr_name) => attr_value }
     else
       rrset
     end
