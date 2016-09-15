@@ -13,8 +13,6 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   def as_body(%__MODULE__{} = rrset) do
-    IO.puts "RRSet: #{inspect rrset}"
-
     %{ rrsets: [
        %{
          name: rrset.name,
@@ -30,7 +28,8 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   def find(rrsets, %{} = attrs) when is_list(rrsets) do
     Enum.find(rrsets, fn(rrset)->
       Enum.all?(attrs, fn({attr, attr_value})->
-        if Enum.member?(Map.keys(%__MODULE__{}), attr) do
+        attr_atom = if is_binary(attr), do: String.to_atom(attr), else: attr
+        if Enum.member?(Map.keys(%__MODULE__{}), attr_atom) do
           equal_attr?(attr, attr_value, rrset)
         else
           Record.find(rrset.records, %{attr => attr_value})
@@ -58,6 +57,7 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   defp equal_attr?(attr, attr_value, rrset) do
-    Map.get(rrset, attr) == attr_value
+    attr_atom = if is_binary(attr), do: String.to_atom(attr), else: attr
+    Map.get(rrset, attr_atom) == attr_value
   end
 end
