@@ -8,8 +8,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
 
 
   def create(%Zone{} = zone, %{} = rrset_attrs) do
-    rrset_attrs = Map.merge(rrset_attrs, %{"changetype" => "REPLACE"})
-    IO.puts "RRSet create: #{inspect rrset_attrs}"
+    rrset_attrs = Map.merge(rrset_attrs, %{changetype: "REPLACE"})
     patch(zone, rrset_attrs)
   end
 
@@ -21,12 +20,12 @@ defmodule PowerDNSex.Managers.RecordsManager do
   end
 
   def update(%Zone{} = zone, %{} = rrset_attrs) do
-    rrset_attrs = Map.merge(rrset_attrs, %{"changetype" => "REPLACE"})
+    rrset_attrs = Map.merge(rrset_attrs, %{changetype: "REPLACE"})
     patch(zone, rrset_attrs)
   end
 
   def delete(%Zone{} = zone, %{} = rrset_attrs) do
-    rrset_attrs = Map.merge(rrset_attrs, %{"changetype" => "DELETE"})
+    rrset_attrs = Map.merge(rrset_attrs, %{changetype: "DELETE"})
     patch(zone, rrset_attrs)
   end
 
@@ -38,7 +37,6 @@ defmodule PowerDNSex.Managers.RecordsManager do
     case status do
       s when s == 204 -> :ok
       s when s < 300 ->
-        IO.puts "Response status: #{s}"
         :ok
       s when s >= 300 ->
         error = Poison.decode!(body, as: %Error{})
@@ -50,15 +48,14 @@ defmodule PowerDNSex.Managers.RecordsManager do
     raise "[Records Manager] Zone URL attribute is empty!"
   end
 
-  defp patch(%Zone{} = zone, %{} = rrset_attrs) do
-    IO.puts "Patch rrset_attrs: #{inspect rrset_attrs}"
-    rrset_struct = RRSet.build(rrset_attrs)
-    IO.puts "[Patch] Struct: #{inspect rrset_struct}"
-    IO.puts "[Patch] Body: #{inspect RRSet.as_body(rrset_struct)}"
-
+  defp patch(%Zone{} = zone, %RRSet{} = rrset) do
     zone.url
-    |> HttpClient.patch!(RRSet.as_body(RRSet.build(rrset_attrs)))
+    |> HttpClient.patch!(RRSet.as_body(rrset))
     |> process_request_response
+  end
+
+  defp patch(%Zone{} = zone, %{} = rrset_attrs) do
+    patch(zone, RRSet.build(rrset_attrs))
   end
 
   defp has_attrs?(rrset, attrs) do

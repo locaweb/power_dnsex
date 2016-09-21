@@ -4,17 +4,11 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
 
   defstruct [:name, :type, :ttl, :records, :changetype]
 
-  def build(%{"records" => records} = rrset_attrs) when is_list(records) do
-    rrset = %__MODULE__{}
-
-    rrset
-    |> Map.keys
-    |> Enum.reduce(rrset, &(set_attrs(&2, &1, rrset_attrs)))
+  def build(%{records: records} = rrset_attrs) when is_list(records) do
+    build_rrset(rrset_attrs)
   end
 
   def as_body(%__MODULE__{} = rrset) do
-    IO.puts "RRSet: #{inspect rrset}"
-
     %{ rrsets: [
        %{
          name: rrset.name,
@@ -44,20 +38,26 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   ###
 
   defp set_attrs(rrset, attr_name, attrs) do
-    if is_atom(attr_name), do: attr_name = Atom.to_string(attr_name)
     if Map.has_key?(attrs, attr_name) do
       attr_value = case attr_name do
-                        "records" -> Record.build(Map.fetch!(attrs, attr_name))
+                        :records -> Record.build(Map.fetch!(attrs, attr_name))
                         _         -> Map.fetch!(attrs, attr_name)
                    end
 
-      %{ rrset | String.to_atom(attr_name) => attr_value }
+      %{ rrset | attr_name => attr_value }
     else
       rrset
     end
   end
 
   defp equal_attr?(attr, attr_value, rrset) do
-    Map.get(rrset, attr) == attr_value
+    attr_atom = if is_binary(attr), do: String.to_atom(attr), else: attr
+    Map.get(rrset, attr_atom) == attr_value
+  end
+
+  defp build_rrset(rrset_attrs) do
+    %__MODULE__{}
+    |> Map.keys
+    |> Enum.reduce(%__MODULE__{}, &(set_attrs(&2, &1, rrset_attrs)))
   end
 end

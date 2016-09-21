@@ -31,11 +31,13 @@ defmodule PowerDNSex.Models.Record do
   # PRIVATE
   ###
 
-  defp build_item(attrs) when is_tuple(attrs) do
-    %__MODULE__{content: elem(attrs, 0), disabled: elem(attrs, 1)}
+  defp build_item(attrs) when is_map(attrs) do
+    disabled = attrs[:disabled] || false
+    record = %__MODULE__{content: attrs.content, disabled: disabled}
+    record
   end
 
-  defp build_item(attrs) when is_map(attrs) do
-    %__MODULE__{content: attrs["content"], disabled: attrs["disabled"]}
+  defp build_item(attrs) when is_tuple(attrs) do
+    %__MODULE__{content: elem(attrs, 0), disabled: elem(attrs, 1)}
   end
 end

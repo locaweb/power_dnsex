@@ -2,7 +2,7 @@ defmodule PowerDNSex.Server do
   use GenServer
 
   alias PowerDNSex.Managers.{ZonesManager, RecordsManager}
-  alias PowerDNSex.Models.Zone
+  alias PowerDNSex.{Models.Zone, Converter}
 
   def start_link(name) do
     GenServer.start_link(__MODULE__, :ok, name: name)
@@ -25,18 +25,22 @@ defmodule PowerDNSex.Server do
   end
 
   def handle_call({:create_record, zone, rrset_attrs}, _from, state) do
-    {:reply, RecordsManager.create(zone, rrset_attrs), state}
+    attrs = Converter.keys_to_atom(rrset_attrs)
+    {:reply, RecordsManager.create(zone, attrs), state}
   end
 
   def handle_call({:show_record, zone_name, rrset_attrs}, _from, state) do
-    {:reply, RecordsManager.show(zone_name, rrset_attrs), state}
+    attrs = Converter.keys_to_atom(rrset_attrs)
+    {:reply, RecordsManager.show(zone_name, attrs), state}
   end
 
   def handle_call({:update_record, zone, rrset_attrs}, _from, state) do
-    {:reply, RecordsManager.update(zone, rrset_attrs), state}
+    attrs = Converter.keys_to_atom(rrset_attrs)
+    {:reply, RecordsManager.update(zone, attrs), state}
   end
 
   def handle_call({:delete_record, zone, rrset_attrs}, _from, state) do
-    {:reply, RecordsManager.delete(zone, rrset_attrs), state}
+    attrs = Converter.keys_to_atom(rrset_attrs)
+    {:reply, RecordsManager.delete(zone, attrs), state}
   end
 end
