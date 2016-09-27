@@ -19,9 +19,18 @@ defmodule PowerDNSex.Managers.RecordsManager do
     end
   end
 
-  def update(%Zone{} = zone, %{} = rrset_attrs) do
-    rrset_attrs = Map.merge(rrset_attrs, %{changetype: "REPLACE"})
-    patch(zone, rrset_attrs)
+  def update(%Zone{} = zone, %{name: rrset_name, type: rrset_type} = rrset_attrs) do
+    rrset_find_params = %{name: "#{rrset_name}.#{zone.name}", type: rrset_type}
+    rrset = RRSet.find(zone.rrsets, rrset_find_params)
+
+    if rrset do
+      updated_rrset = RRSet.update(rrset, rrset_attrs)
+      updated_rrset = Map.merge(updated_rrset, %{changetype: "REPLACE"})
+      patch(zone, updated_rrset)
+    else
+      error_msg = "Record #{rrset_name}, type #{rrset_type}, not found!"
+      {:error, %Error{error: error_msg, http_status_code: 404}}
+    end
   end
 
   def delete(%Zone{} = zone, %{} = rrset_attrs) do

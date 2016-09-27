@@ -3,6 +3,7 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   alias PowerDNSex.Models.Record
 
   defstruct [:name, :type, :ttl, :records, :changetype]
+  @permited_attrs [:ttl, :records]
 
   def build(%{records: records} = rrset_attrs) when is_list(records) do
     build_rrset(rrset_attrs)
@@ -31,6 +32,19 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
         end
       end)
     end)
+  end
+
+  def update(%__MODULE__{} = rrset, %{} = new_attrs) do
+    Enum.reduce(@permited_attrs, rrset, fn(attr_name, rrset)->
+                  case Map.fetch(new_attrs, attr_name) do
+                    {:ok, new_value} ->
+                      if attr_name == :records do
+                        new_value = Record.build(new_value)
+                      end
+                      %{rrset | attr_name => new_value}
+                    _ -> rrset
+                  end
+                end)
   end
 
   ###
