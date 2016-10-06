@@ -40,7 +40,6 @@ defmodule PowerDNSex.Server do
   end
 
   def handle_call({:delete_record, zone, rrset_attrs}, _from, state) do
-    attrs = Converter.keys_to_atom(rrset_attrs)
-    {:reply, RecordsManager.delete(zone, attrs), state}
+    {:reply, RecordsManager.delete(zone, rrset_attrs), state}
   end
 end
