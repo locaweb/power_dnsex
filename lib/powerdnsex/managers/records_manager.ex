@@ -1,4 +1,5 @@
 defmodule PowerDNSex.Managers.RecordsManager do
+  require Logger
 
   alias PowerDNSex.HttpClient
   alias PowerDNSex.Models.{Zone, Record, Error}
@@ -58,8 +59,11 @@ defmodule PowerDNSex.Managers.RecordsManager do
   end
 
   defp patch(%Zone{} = zone, %RRSet{} = rrset) do
+    rrset_body = RRSet.as_body(rrset)
+    Logger.info "Request to [#{zone.name}] with params [#{rrset_body}]"
+
     zone.url
-    |> HttpClient.patch!(RRSet.as_body(rrset))
+    |> HttpClient.patch!(rrset_body)
     |> process_request_response
   end
 

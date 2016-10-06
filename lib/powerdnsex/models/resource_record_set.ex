@@ -35,21 +35,23 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   def update(%__MODULE__{} = rrset, %{} = new_attrs) do
-    Enum.reduce(@permited_attrs, rrset, fn(attr_name, rrset)->
-                  case Map.fetch(new_attrs, attr_name) do
-                    {:ok, new_value} ->
-                      if attr_name == :records do
-                        new_value = Record.build(new_value)
-                      end
-                      %{rrset | attr_name => new_value}
-                    _ -> rrset
-                  end
-                end)
+    format_attrs(new_attrs, rrset)
+    |> Enum.reduce(rrset, fn( {attr, value}, rrset) ->
+      %{rrset | attr => value}
+    end)
   end
 
   ###
   # Private
   ###
+  #
+  defp format_attrs(new_attrs, rrset) do
+    record = %Record{content: new_attrs.content, disabled: new_attrs.disabled }
+     %{
+       records: [record],
+       ttl: Map.get(new_attrs, :ttl, rrset.ttl)
+     }
+  end
 
   defp set_attrs(rrset, attr_name, attrs) do
     if Map.has_key?(attrs, attr_name) do
