@@ -12,7 +12,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
   @new_record %{
     name: "new-record.my-domain.art.",
     type: "A",
-    ttl: 86400,
+    ttl: 86_400,
     records: [
       {"127.0.0.1", false},
       {"192.168.0.1", true}
@@ -22,7 +22,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
   @updated_record %{
     name: "updated-record.my-domain.art.",
     type: "A",
-    ttl: 86800,
+    ttl: 86_800,
     records: [{"127.0.0.1", true}]
   }
 
@@ -34,7 +34,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
   @invalid_record %{
     name: "updated-record.my-domain.art.",
     type: "NS",
-    ttl: 86800,
+    ttl: 86_800,
     records: [{"127.0.0.1", true}]
   }
 

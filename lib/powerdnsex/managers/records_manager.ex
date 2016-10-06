@@ -50,7 +50,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
         :ok
       s when s >= 300 ->
         error = Poison.decode!(body, as: %Error{})
-        {:error, %{error | http_status_code: s} }
+        {:error, %{error | http_status_code: s}}
     end
   end
 
@@ -72,7 +72,8 @@ defmodule PowerDNSex.Managers.RecordsManager do
   end
 
   defp has_attrs?(rrset, attrs) do
-    Map.keys(attrs)
+    attrs
+    |> Map.keys
     |> Enum.all?(&(equal_attr?(&1, attrs[&1], rrsets)))
   end
 end

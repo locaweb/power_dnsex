@@ -7,7 +7,8 @@ defmodule PowerDNSex.Managers.ZonesManager do
   alias HTTPoison.Response
 
   def create(%Zone{} = zone, server_name \\ @default_server) do
-    zone_path(server_name)
+    server_name
+    |> zone_path
     |> HttpClient.post!(Zone.as_body(zone))
     |> process_request_response
   end
@@ -15,7 +16,8 @@ defmodule PowerDNSex.Managers.ZonesManager do
   def show(zone_name, server_name \\ @default_server)
       when is_bitstring(zone_name) do
 
-    zone_path(server_name, zone_name)
+    server_name
+    |> zone_path(zone_name)
     |> HttpClient.get!
     |> process_request_response
   end
@@ -46,7 +48,7 @@ defmodule PowerDNSex.Managers.ZonesManager do
       s when s == 204 -> {:ok, %{}}
       s when s < 300 -> {:ok, decode_body(body)}
       s when s == 500 ->
-        {:error, %Error{error: "Internal Server Error"}, http_status_code: s}
+        {:error, %Error{error: "Internal Server Error", http_status_code: s}}
       s when s >= 300 ->
         error = %{Poison.decode!(body,as: %Error{}) | http_status_code: s}
         {:error, error}

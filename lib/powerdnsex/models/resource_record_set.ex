@@ -10,7 +10,7 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   def as_body(%__MODULE__{} = rrset) do
-    %{ rrsets: [
+    %{rrsets: [
        %{
          name: rrset.name,
          type: rrset.type,
@@ -23,8 +23,8 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   def find(rrsets, %{} = attrs) when is_list(rrsets) do
-    Enum.find(rrsets, fn(rrset)->
-      Enum.all?(attrs, fn({attr, attr_value})->
+    Enum.find(rrsets, fn(rrset) ->
+      Enum.all?(attrs, fn({attr, attr_value}) ->
         if Enum.member?(Map.keys(%__MODULE__{}), attr) do
           equal_attr?(attr, attr_value, rrset)
         else
@@ -35,23 +35,22 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
   end
 
   def update(%__MODULE__{} = rrset, %{} = new_attrs) do
-    format_attrs(new_attrs, rrset)
-    |> Enum.reduce(rrset, fn( {attr, value}, rrset) ->
-      %{rrset | attr => value}
-    end)
+    Enum.reduce(@permited_attrs, rrset, fn(attr_name, rrset) ->
+                  case Map.fetch(new_attrs, attr_name) do
+                    {:ok, new_value} ->
+                      if attr_name == :records do
+                        new_value = Record.build(new_value)
+                      end
+                      %{rrset | attr_name => new_value}
+                    _ -> rrset
+                  end
+                end)
   end
 
   ###
   # Private
   ###
   #
-  defp format_attrs(new_attrs, rrset) do
-    record = %Record{content: new_attrs.content, disabled: new_attrs.disabled }
-     %{
-       records: [record],
-       ttl: Map.get(new_attrs, :ttl, rrset.ttl)
-     }
-  end
 
   defp set_attrs(rrset, attr_name, attrs) do
     if Map.has_key?(attrs, attr_name) do
@@ -60,7 +59,7 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
                         _         -> Map.fetch!(attrs, attr_name)
                    end
 
-      %{ rrset | attr_name => attr_value }
+      %{rrset | attr_name => attr_value}
     else
       rrset
     end

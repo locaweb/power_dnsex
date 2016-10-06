@@ -5,6 +5,8 @@ defmodule PowerDNSex.Mixfile do
     [app: :powerdnsex,
      version: "0.0.1",
      elixir: "~> 1.3",
+     description: description(),
+     package: package(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -27,7 +29,7 @@ defmodule PowerDNSex.Mixfile do
   end
 
   defp package do
-    [ maintainers: ["Rodrigo Coutinho"],
+    [maintainers: ["Rodrigo Coutinho"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/digaoddc/power_dnsex"}
     ]

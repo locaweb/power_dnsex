@@ -20,8 +20,8 @@ defmodule PowerDNSex.Models.Record do
   end
 
   def find(records, attrs) when is_list(records) do
-    Enum.find(records, fn(record)->
-      Enum.all?(attrs, fn({attr, attr_value})->
+    Enum.find(records, fn(record) ->
+      Enum.all?(attrs, fn({attr, attr_value}) ->
         Map.get(record, attr) == attr_value
       end)
     end)

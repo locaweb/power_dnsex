@@ -12,7 +12,7 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
   @unknown_name "it-will-never-exist.on.the.art."
 
   @valid_zone_test %Zone{name: "my-domain.art.",
-                         serial: 2016060601,
+                         serial: 2_016_060_601,
                          comments: ["Test comment"] }
 
   @expected_rrset [
@@ -32,7 +32,7 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
   @expected_zone %Zone{name: "my-domain.art.",
                        id: "my-domain.art.",
                        account: "",
-                       serial: 2016060601,
+                       serial: 2_016_060_601,
                        url: "api/v1/servers/localhost/zones/my-domain.art.",
                        rrsets: @expected_rrset}
 
