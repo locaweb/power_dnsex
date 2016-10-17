@@ -4,6 +4,7 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
 
   defstruct [:name, :type, :ttl, :records, :changetype]
   @permited_attrs [:ttl, :records]
+  @multi_content_types [:ns, :mx]
 
   def build(%{records: records} = rrset_attrs) when is_list(records) do
     build_rrset(rrset_attrs)
@@ -47,10 +48,43 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
                 end)
   end
 
+  def find_params(%{} = record_attrs) do
+    base_params = find_filter(record_attrs)
+    case multivalue_record?(record_attrs) do
+      true ->
+        rrset_content = Enum.reduce(record_attrs["records"], "", &(&2 = &2 <> Map.get(&1, "content")))
+        Map.put(base_params, :content, rrset_content)
+      false ->
+        base_params
+    end
+  end
+
+  def record_attrs(rrsets,%{} = record_attrs) do
+    simple_find_params = find_filter(record_attrs)
+    previous_rrset = find(rrsets, simple_find_params)
+
+    previous_rrset_parsed = Enum.reduce(previous_rrset.records, [], fn(record, acc) ->
+      acc ++ [%{"content" => record.content, "disabled" => record.disabled}]
+    end)
+    %{record_attrs | "records" => (record_attrs["records"] ++ previous_rrset_parsed)}
+  end
+
   ###
   # Private
   ###
   #
+
+  defp find_filter(record_attrs) do
+    %{name: record_attrs["name"], type: record_attrs["type"]}
+  end
+
+  def multivalue_record?(rrset) do
+    type_atom = rrset["type"]
+    |> String.downcase
+    |> String.to_atom
+
+    Enum.member?(@multi_content_types, type_atom)
+  end
 
   defp set_attrs(rrset, attr_name, attrs) do
     if Map.has_key?(attrs, attr_name) do
