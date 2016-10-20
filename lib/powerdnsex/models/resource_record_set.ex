@@ -59,20 +59,27 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
     end
   end
 
-  def record_attrs(rrsets,%{} = record_attrs) do
-    simple_find_params = find_filter(record_attrs)
-    previous_rrset = find(rrsets, simple_find_params)
-
-    previous_rrset_parsed = Enum.reduce(previous_rrset.records, [], fn(record, acc) ->
-      acc ++ [%{"content" => record.content, "disabled" => record.disabled}]
-    end)
-    %{record_attrs | "records" => (record_attrs["records"] ++ previous_rrset_parsed)}
+  def record_attrs(rrsets, %{} = record_attrs) do
+    case previous_rrset(rrsets, record_attrs) do
+      %__MODULE__{} = prrset ->
+        previous_rrset_parsed = Enum.reduce(prrset.records, [], fn(record, acc) ->
+          acc ++ [%{"content" => record.content, "disabled" => record.disabled}]
+        end)
+        %{record_attrs | "records" => (record_attrs["records"] ++ previous_rrset_parsed)}
+      nil ->
+        record_attrs
+    end
   end
 
   ###
   # Private
   ###
   #
+
+  def previous_rrset(rrsets, %{} = record_attrs) do
+    simple_find_params = find_filter(record_attrs)
+    find(rrsets, simple_find_params)
+  end
 
   defp find_filter(record_attrs) do
     %{name: record_attrs["name"], type: record_attrs["type"]}

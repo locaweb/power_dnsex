@@ -28,3 +28,6 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+config :powerdnsex, url: {:system, "CARTORIO_POWERDNS_URL"},
+                    token: {:system, "CARTORIO_POWERDNS_TOKEN"}
