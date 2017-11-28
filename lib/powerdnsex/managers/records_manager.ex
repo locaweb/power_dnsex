@@ -21,7 +21,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
   end
 
   def update(%Zone{} = zone, %{name: rrset_name, type: rrset_type} = rrset_attrs) do
-    rrset_find_params = %{name: "#{rrset_name}.#{zone.name}", type: rrset_type}
+    rrset_find_params = %{name: rrset_name, type: rrset_type}
     rrset = RRSet.find(zone.rrsets, rrset_find_params)
 
     if rrset do
