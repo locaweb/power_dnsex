@@ -22,13 +22,20 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
     end
     ```
 
-## Configuration with env vars
-Insert this in your Phoenix configuration files. Eg:  `config.exs`
+## Configuration
+Insert this in your configuration files. Eg:  `config.exs`
+
+```elixir
+config :powerdnsex, url: "localhost:8081",
+                    token: "sometoken"
+```
+
+You can also use ENV vars to configure PowerDNSex.
 ```elixir
 config :powerdnsex, url: {:system, "POWERDNS_URL"},
                     token: {:system, "POWERDNS_TOKEN"}
 ```
-Make sure you set those envinronment variables.
+Make sure you set those environment variables.
 
 ## Example usage
 
@@ -101,3 +108,4 @@ record = %{
 rrset = PowerDNSex.show_record("example.com", record)
 res = PowerDNSex.delete_record(zone, rrset)
 ```
+
