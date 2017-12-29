@@ -16,8 +16,7 @@ defmodule PowerDNSex do
     options = [strategy: :one_for_one, name: :"#{@name}.Supervisor"]
 
     try do
-      IO.puts "Start alllll"
-      # Config.valid?
+      Config.valid?
 
       case Supervisor.start_link(children, options) do
         {:ok, pid} -> {:ok, pid}
