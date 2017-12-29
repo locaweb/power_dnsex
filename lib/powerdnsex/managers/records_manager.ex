@@ -29,7 +29,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
       updated_rrset = Map.merge(updated_rrset, %{changetype: "REPLACE"})
       patch(zone, updated_rrset)
     else
-      error_msg = "Record #{rrset_name}, type #{rrset_type}, not found!"
+      error_msg = "Record #{rrset_find_params.name}, type #{rrset_type}, not found!"
       {:error, %Error{error: error_msg, http_status_code: 404}}
     end
   end

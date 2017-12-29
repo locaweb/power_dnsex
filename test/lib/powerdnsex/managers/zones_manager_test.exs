@@ -26,6 +26,15 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
                          "2016060601 10800 3600 604800 3600",
                 disabled: false}
       ]
+    },
+    %RRSet{
+      name: "my-domain.art.",
+      ttl: 3600,
+      type: "NS",
+      records: [
+        %Record{content: "ns1.domain.com",
+                disabled: false}
+      ]
     }
   ]
 
@@ -34,6 +43,7 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
                        account: "",
                        serial: 2_016_060_601,
                        url: "api/v1/servers/localhost/zones/my-domain.art.",
+                       nameservers: ["ns1.domain.com"],
                        rrsets: @expected_rrset}
 
   setup do
@@ -74,6 +84,7 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
       use_cassette "zones_manager/show/success" do
         {:ok, zone} = ZonesManager.show(@valid_zone_test.name)
         assert zone.__struct__ == PowerDNSex.Models.Zone
+        assert zone.nameservers == ["ns1.domain.com"]
       end
     end
 

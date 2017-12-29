@@ -47,6 +47,14 @@ defmodule PowerDNSex.Models.ResourceRecordSet do
                 end)
   end
 
+  def nameservers(rrsets) do
+    rrset = Enum.find(rrsets, fn(rrset) -> rrset.type == "NS" end)
+    nameservers = case rrset do
+      nil -> []
+      _ -> Enum.map(rrset.records, &(&1.content) )
+    end
+  end
+
   ###
   # Private
   ###

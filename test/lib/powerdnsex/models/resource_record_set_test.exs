@@ -5,8 +5,8 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
   alias PowerDNSex.Models.{Record}
   alias PowerDNSex.Models.ResourceRecordSet, as: RRSet
 
-  @ns_content "ns1.locaweb.com.br. " <>
-    "ns2.locaweb.com.br"
+  @ns_content "ns1.domain.com."
+  @ns2_content "ns2.domain.com."
 
   @domain "my-domain.art."
 
@@ -16,6 +16,8 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
     type: "NS",
     records: [
       %Record{content: @ns_content,
+              disabled: false},
+      %Record{content: @ns2_content,
               disabled: false}
     ]
   }
@@ -35,14 +37,15 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
     @record_a
   ]
 
-  # describe "nameservers/1" do
-  #   test "return empty list for nameserver" do
-  #     assert RRSet.nameservers(@empty_ns) == []
-  #   end
-  #   test "return map of content records" do
-  #     assert RRSet.nameservers(@record_with_ns) == [@ns_content]
-  #   end
-  # end
+  describe "nameservers/1" do
+    test "return empty list for nameserver" do
+      assert RRSet.nameservers([]) == []
+    end
+
+    test "return map of content records" do
+      assert RRSet.nameservers(@rrsets) == [@ns_content, @ns2_content]
+    end
+  end
 
   describe "build/1" do
     test "build a record" do

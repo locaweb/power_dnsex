@@ -56,8 +56,11 @@ defmodule PowerDNSex.Managers.ZonesManager do
   end
 
   defp decode_body(body) do
-    body
+    zone = body
     |> Poison.decode!(as: %Zone{rrsets:
                                 [%ResourceRecordSet{records: [%Record{}]}]})
+
+    nameservers = ResourceRecordSet.nameservers(zone.rrsets)
+    Map.put(zone, :nameservers, nameservers)
   end
 end
