@@ -6,9 +6,21 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
   alias PowerDNSex.Models.{Zone, Record}
   alias PowerDNSex.Managers.RecordsManager
   alias PowerDNSex.FakeConfig, as: Config
+  alias PowerDNSex.Models.ResourceRecordSet, as: RRSet
 
-  @valid_zone %Zone{name: "my-domain.art.",
-                    url: "api/v1/servers/localhost/zones/my-domain.art."}
+  @record %RRSet{
+    name: "updated-record.my-domain.art.",
+    type: "A",
+    ttl: 3600,
+    records: [{"127.0.0.1", false}]
+  }
+
+  @valid_zone %Zone{
+    name: "my-domain.art.",
+    url: "api/v1/servers/localhost/zones/my-domain.art.", 
+    rrsets: [@record]
+  }
+
   @new_record %{
     name: "new-record.my-domain.art.",
     type: "A",
@@ -29,13 +41,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
   @record_to_delete %{
     name: "record-to-delete.my-domain.art.",
     type: "A",
-  }
-
-  @invalid_record %{
-    name: "updated-record.my-domain.art.",
-    type: "NS",
-    ttl: 86_800,
-    records: [{"127.0.0.1", true}]
+    records: []
   }
 
   @invalid_zone %Zone{
@@ -48,7 +54,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
     Config.set_token
 
     ExVCR.Config.cassette_library_dir("test/support/cassettes",
-                                      "test/support/custom_cassettes")
+      "test/support/custom_cassettes")
     HTTPoison.start
   end
 
@@ -87,14 +93,6 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
 
   describe "update/2" do
     @tag :records_manager_update
-    test "exception given empty zones url" do
-      raise_msg = "[Records Manager] Zone URL attribute is empty!"
-      assert_raise RuntimeError, raise_msg, fn() ->
-        RecordsManager.update(%Zone{}, %Record{})
-      end
-    end
-
-    @tag :records_manager_update
     test "the return given correct params" do
       use_cassette "records_manager/update/success" do
         assert RecordsManager.update(@valid_zone, @updated_record) == :ok
@@ -102,21 +100,12 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
     end
 
     @tag :records_manager_update
-    test "the return given incorrect zone" do
+    test "when zone does not exists" do
       use_cassette "records_manager/update/not_found" do
-        response = RecordsManager.update(@invalid_zone, @updated_record)
-        error_msg = "Could not find domain '#{@invalid_zone.name}.'"
-        assert response.error == error_msg
-      end
-    end
-
-    @tag :records_manager_update
-    test "the return given incorrect params" do
-      use_cassette "records_manager/update/invalid_record" do
-        response = RecordsManager.update(@valid_zone, @invalid_record)
-        error_msg = "Record updated-record.my-domain.art./NS '127.0.0.1': " <>
-                    "Not in expected format (parsed as '127.0.0.1.')"
-        assert response.error == error_msg
+        {:error, error} = RecordsManager.update(@invalid_zone, @updated_record)
+        error_msg = "Record #{@updated_record.name}, type A, not found!"
+        assert error.error == error_msg
+        assert error.http_status_code == 404
       end
     end
   end
