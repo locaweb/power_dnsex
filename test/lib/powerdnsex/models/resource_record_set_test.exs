@@ -5,23 +5,10 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
   alias PowerDNSex.Models.{Record}
   alias PowerDNSex.Models.ResourceRecordSet, as: RRSet
 
-
-  @soa_content "a.misconfigured.powerdns.server. " <>
-    "hostmaster.my-domain.art. " <>
-    "2016060601 10800 3600 604800 3600"
-
   @ns_content "ns1.locaweb.com.br. " <>
     "ns2.locaweb.com.br"
 
-  @record_soa %RRSet {
-    name: "my-domain.art.",
-    ttl: 3600,
-    type: "SOA",
-    records: [
-      %Record{content: @soa_content,
-              disabled: false}
-    ]
-  }
+  @domain "my-domain.art."
 
   @record_ns %RRSet {
     name: "my-domain.art.",
@@ -57,6 +44,17 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
   #   end
   # end
 
+  describe "build/1" do
+    test "build a record" do
+      raw_rrset = %{name: @domain, type: 'A', ttl: 3600, records: [ %{content: "192.168.0.1", disabled: false} ] }
+      rrset = %RRSet{changetype: nil,
+                     name: "my-domain.art.",
+                     records: [%PowerDNSex.Models.Record{content: "192.168.0.1",
+                                disabled: false}], ttl: 3600, type: 'A'}
+      assert RRSet.build(raw_rrset) == rrset
+    end
+  end
+
   describe "find/1" do
     test "find a record" do
       assert RRSet.find(@rrsets, %{name: "store.my-domain.art.", type: "A"}) == @record_a
@@ -68,7 +66,7 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
   end
 
   describe "update/2" do
-    test "" do
+    test "update passing all attributes" do
       new_attrs = %{name: "page.my-domain.art.",
                     records: [%{content: "192.168.0.1", disabled: false}],
                     ttl: "3600", type: "A"}

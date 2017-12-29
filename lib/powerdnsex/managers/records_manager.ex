@@ -2,7 +2,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
   require Logger
 
   alias PowerDNSex.HttpClient
-  alias PowerDNSex.Models.{Zone, Record, Error}
+  alias PowerDNSex.Models.{Zone, Error}
   alias PowerDNSex.Models.ResourceRecordSet, as: RRSet
   alias PowerDNSex.Managers.ZonesManager
   alias HTTPoison.Response
@@ -41,7 +41,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
 
   ###
   # Private
-  ##
+  ###
 
   defp process_request_response(%Response{body: body, status_code: status}) do
     case status do
@@ -69,11 +69,5 @@ defmodule PowerDNSex.Managers.RecordsManager do
 
   defp patch(%Zone{} = zone, %{} = rrset_attrs) do
     patch(zone, RRSet.build(rrset_attrs))
-  end
-
-  defp has_attrs?(rrset, attrs) do
-    attrs
-    |> Map.keys
-    |> Enum.all?(&(equal_attr?(&1, attrs[&1], rrsets)))
   end
 end
