@@ -2,6 +2,8 @@
 
 A client to [PowerDNS 4 API](https://doc.powerdns.com/md/httpapi/README/), with all CRUD operations to manage zones and records.
 
+[![Build Status](https://travis-ci.org/digaoddc/power_dnsex.svg?branch=travis)](https://travis-ci.org/digaoddc/power_dnsex)
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
