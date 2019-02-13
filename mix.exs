@@ -19,7 +19,12 @@ defmodule PowerDNSex.Mixfile do
   end
 
   defp deps do
-    [{:httpoison, "~> 1.5.0"}, {:poison, "~> 4.0.1"}, {:exvcr, "~> 0.10.3", only: :test}]
+    [
+      {:httpoison, "~> 1.5.0"},
+      {:poison, "~> 4.0.1"},
+      {:exvcr, "~> 0.10.3", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev}
+    ]
   end
 
   defp description do
