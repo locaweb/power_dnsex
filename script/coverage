@@ -1,0 +1,5 @@
+#!/bin/bash -xe
+
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+$DOCKER_COMPOSE run -T -e MIX_ENV=test $(power_dnsex_env) --rm web bash -c "mix coveralls.html </dev/null"

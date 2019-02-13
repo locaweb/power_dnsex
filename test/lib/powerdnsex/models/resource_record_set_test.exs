@@ -1,5 +1,4 @@
 defmodule PowerDNSex.Models.ResourceRecordSetTest do
-
   use ExUnit.Case, async: true
 
   alias PowerDNSex.Models.{Record}
@@ -10,25 +9,22 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
 
   @domain "my-domain.art."
 
-  @record_ns %RRSet {
+  @record_ns %RRSet{
     name: "my-domain.art.",
     ttl: 3600,
     type: "NS",
     records: [
-      %Record{content: @ns_content,
-              disabled: false},
-      %Record{content: @ns2_content,
-              disabled: false}
+      %Record{content: @ns_content, disabled: false},
+      %Record{content: @ns2_content, disabled: false}
     ]
   }
 
-  @record_a %RRSet {
+  @record_a %RRSet{
     name: "store.my-domain.art.",
     ttl: 3600,
     type: "A",
     records: [
-      %Record{content: "182.23.2.3",
-              disabled: false}
+      %Record{content: "182.23.2.3", disabled: false}
     ]
   }
 
@@ -49,11 +45,21 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
 
   describe "build/1" do
     test "build a record" do
-      raw_rrset = %{name: @domain, type: 'A', ttl: 3600, records: [ %{content: "192.168.0.1", disabled: false} ] }
-      rrset = %RRSet{changetype: nil,
-                     name: "my-domain.art.",
-                     records: [%PowerDNSex.Models.Record{content: "192.168.0.1",
-                                disabled: false}], ttl: 3600, type: 'A'}
+      raw_rrset = %{
+        name: @domain,
+        type: 'A',
+        ttl: 3600,
+        records: [%{content: "192.168.0.1", disabled: false}]
+      }
+
+      rrset = %RRSet{
+        changetype: nil,
+        name: "my-domain.art.",
+        records: [%PowerDNSex.Models.Record{content: "192.168.0.1", disabled: false}],
+        ttl: 3600,
+        type: 'A'
+      }
+
       assert RRSet.build(raw_rrset) == rrset
     end
   end
@@ -70,20 +76,22 @@ defmodule PowerDNSex.Models.ResourceRecordSetTest do
 
   describe "update/2" do
     test "update passing all attributes" do
-      new_attrs = %{name: "page.my-domain.art.",
-                    records: [%{content: "192.168.0.1", disabled: false}],
-                    ttl: "3600", type: "A"}
+      new_attrs = %{
+        name: "page.my-domain.art.",
+        records: [%{content: "192.168.0.1", disabled: false}],
+        ttl: "3600",
+        type: "A"
+      }
 
-      new_record  = %PowerDNSex.Models.ResourceRecordSet{changetype: nil,
-                                                         name: "store.my-domain.art.",
-                                                         records: [
-                                                           %PowerDNSex.Models.Record{
-                                                             content: "192.168.0.1",
-                                                             disabled: false}],
-                                                         type: "A",
-                                                         ttl: "3600"}
+      new_record = %PowerDNSex.Models.ResourceRecordSet{
+        changetype: nil,
+        name: "store.my-domain.art.",
+        records: [%PowerDNSex.Models.Record{content: "192.168.0.1", disabled: false}],
+        type: "A",
+        ttl: "3600"
+      }
 
-      assert RRSet.update(@record_a, new_attrs) ==  new_record
+      assert RRSet.update(@record_a, new_attrs) == new_record
     end
   end
 end

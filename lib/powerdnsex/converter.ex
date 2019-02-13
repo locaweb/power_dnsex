@@ -7,9 +7,12 @@ defmodule PowerDNSex.Converter do
     for {key, value} <- struct, into: %{} do
       n_key = if is_binary(key), do: String.to_atom(key), else: key
 
-      n_value = if is_map(value) or is_list(value) do
-                  keys_to_atom(value)
-                else value end
+      n_value =
+        if is_map(value) or is_list(value) do
+          keys_to_atom(value)
+        else
+          value
+        end
 
       {n_key, n_value}
     end

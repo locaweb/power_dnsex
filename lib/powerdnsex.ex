@@ -5,9 +5,9 @@ defmodule PowerDNSex do
 
   @name :PowerDNSex
 
-  def start(_,_), do: start()
+  def start(_, _), do: start()
 
-  @spec start() :: GenServer.on_start
+  @spec start() :: GenServer.on_start()
   @doc false
   def start() do
     import Supervisor.Spec
@@ -16,7 +16,7 @@ defmodule PowerDNSex do
     options = [strategy: :one_for_one, name: :"#{@name}.Supervisor"]
 
     try do
-      Config.valid?
+      Config.valid?()
 
       case Supervisor.start_link(children, options) do
         {:ok, pid} -> {:ok, pid}
@@ -34,7 +34,7 @@ defmodule PowerDNSex do
   # Zones #
   #########
 
-  @spec create_zone(Zone.t, String.t) :: Zone.t | Error.t
+  @spec create_zone(Zone.t(), String.t()) :: Zone.t() | Error.t()
   @doc """
   Create a new Zone on PowerDNS
   """
@@ -42,8 +42,7 @@ defmodule PowerDNSex do
     call({:create_zone, zone, server_name})
   end
 
-
-  @spec show_zone(String.t, String.t) :: :ok | {:error, String.t}
+  @spec show_zone(String.t(), String.t()) :: :ok | {:error, String.t()}
   @doc """
   Show / Retrive info of the specific Zone
   """
@@ -51,8 +50,7 @@ defmodule PowerDNSex do
     call({:show_zone, zone, server_name})
   end
 
-
-  @spec delete_zone(String.t, String.t) :: :ok | {:error, String.t}
+  @spec delete_zone(String.t(), String.t()) :: :ok | {:error, String.t()}
   @doc """
   Delete specific Zone on PowerDNS
   """
@@ -64,7 +62,7 @@ defmodule PowerDNSex do
   # Records #
   ###########
 
-  @spec create_record(Zone.t, struct) :: :ok | {:error, String.t}
+  @spec create_record(Zone.t(), struct) :: :ok | {:error, String.t()}
   @doc """
   Create a new Record for the given Zone
   """
@@ -72,7 +70,7 @@ defmodule PowerDNSex do
     call({:create_record, zone, rrset_attrs})
   end
 
-  @spec show_record(String.t, struct) :: :ok | {:error, String.t}
+  @spec show_record(String.t(), struct) :: :ok | {:error, String.t()}
   @doc """
   Show / Retrive info of the specific Record of the given Zone name
   """
@@ -80,7 +78,7 @@ defmodule PowerDNSex do
     call({:show_record, zone_name, rrset_attrs})
   end
 
-  @spec update_record(Zone.t, struct) :: :ok | {:error, String.t}
+  @spec update_record(Zone.t(), struct) :: :ok | {:error, String.t()}
   @doc """
   Update Record of the given Zone
   """
@@ -88,7 +86,7 @@ defmodule PowerDNSex do
     call({:update_record, zone, rrset_attrs})
   end
 
-  @spec delete_record(Zone.t, struct) :: :ok | {:error, String.t}
+  @spec delete_record(Zone.t(), struct) :: :ok | {:error, String.t()}
   @doc """
   Delete specific Record of given Zone
   """
@@ -101,5 +99,4 @@ defmodule PowerDNSex do
   ###########
 
   defp call(params), do: GenServer.call(@name, params)
-
 end

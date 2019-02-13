@@ -1,5 +1,4 @@
 defmodule PowerDNSex.Managers.ZonesManager do
-
   @default_server "localhost"
 
   alias PowerDNSex.HttpClient
@@ -15,19 +14,17 @@ defmodule PowerDNSex.Managers.ZonesManager do
 
   def show(zone_name, server_name \\ @default_server)
       when is_bitstring(zone_name) do
-
     server_name
     |> zone_path(zone_name)
-    |> HttpClient.get!
+    |> HttpClient.get!()
     |> process_request_response
   end
 
   def delete(zone_name, server_name \\ @default_server)
       when is_bitstring(zone_name) do
-
     server_name
     |> zone_path(zone_name)
-    |> HttpClient.delete!
+    |> HttpClient.delete!()
     |> process_request_response
   end
 
@@ -45,20 +42,25 @@ defmodule PowerDNSex.Managers.ZonesManager do
 
   defp process_request_response(%Response{body: body, status_code: status}) do
     case status do
-      s when s == 204 -> {:ok, %{}}
-      s when s < 300 -> {:ok, decode_body(body)}
+      s when s == 204 ->
+        {:ok, %{}}
+
+      s when s < 300 ->
+        {:ok, decode_body(body)}
+
       s when s == 500 ->
         {:error, %Error{error: "Internal Server Error", http_status_code: s}}
+
       s when s >= 300 ->
-        error = %{Poison.decode!(body,as: %Error{}) | http_status_code: s}
+        error = %{Poison.decode!(body, as: %Error{}) | http_status_code: s}
         {:error, error}
     end
   end
 
   defp decode_body(body) do
-    zone = body
-    |> Poison.decode!(as: %Zone{rrsets:
-                                [%ResourceRecordSet{records: [%Record{}]}]})
+    zone =
+      body
+      |> Poison.decode!(as: %Zone{rrsets: [%ResourceRecordSet{records: [%Record{}]}]})
 
     nameservers = ResourceRecordSet.nameservers(zone.rrsets)
     Map.put(zone, :nameservers, nameservers)

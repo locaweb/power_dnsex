@@ -1,0 +1,7 @@
+#!/bin/bash -xe
+
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+CREDO_ARGS="$@"
+
+$DOCKER_COMPOSE run --rm -T $(power_dnsex_env) web mix credo $CREDO_ARGS
