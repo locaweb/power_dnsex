@@ -1,12 +1,11 @@
 defmodule PowerDNSex.ConfigTest do
-
   use ExUnit.Case, async: true
 
   alias PowerDNSex.FakeConfig, as: Config
 
-  setup do: Config.set_url
-  setup do: Config.set_token
-  setup do: Config.set_url && Config.set_token
+  setup do: Config.set_url()
+  setup do: Config.set_token()
+  setup do: Config.set_url() && Config.set_token()
 
   describe "Config.powerdns_token/0" do
     @tag :configs
@@ -14,12 +13,12 @@ defmodule PowerDNSex.ConfigTest do
       env_token = "new-token"
       System.put_env("POWERDNS_TOKEN", env_token)
       Application.put_env(:powerdnsex, :token, {:system, "POWERDNS_TOKEN"})
-      assert PowerDNSex.Config.powerdns_token == env_token
+      assert PowerDNSex.Config.powerdns_token() == env_token
     end
 
     @tag :configs
     test "using application config" do
-      assert PowerDNSex.Config.powerdns_token == Config.token
+      assert PowerDNSex.Config.powerdns_token() == Config.token()
     end
 
     @tag :configs
@@ -28,7 +27,7 @@ defmodule PowerDNSex.ConfigTest do
       expected_error = "[PowerDNSex] PowerDNS token not configured."
 
       assert_raise RuntimeError, expected_error, fn ->
-        PowerDNSex.Config.powerdns_token
+        PowerDNSex.Config.powerdns_token()
       end
     end
   end
@@ -39,20 +38,21 @@ defmodule PowerDNSex.ConfigTest do
       env_url = "https://env-powerdns.test/"
       System.put_env("POWERDNS_URL", env_url)
       Application.put_env(:powerdnsex, :url, {:system, "POWERDNS_URL"})
-      assert PowerDNSex.Config.powerdns_url == env_url
+      assert PowerDNSex.Config.powerdns_url() == env_url
     end
 
     @tag :configs
     test "using application config" do
-      assert PowerDNSex.Config.powerdns_url == Config.url <> "/"
+      assert PowerDNSex.Config.powerdns_url() == Config.url() <> "/"
     end
 
     @tag :configs
     test "given none url config" do
       Application.delete_env(:powerdnsex, :url)
       expected_error = "[PowerDNSex] PowerDNS url not configured."
+
       assert_raise RuntimeError, expected_error, fn ->
-        PowerDNSex.Config.powerdns_url
+        PowerDNSex.Config.powerdns_url()
       end
     end
   end

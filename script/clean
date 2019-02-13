@@ -1,0 +1,3 @@
+#!/bin/bash
+docker-compose run --rm web rm -fr _build deps
+docker-compose down

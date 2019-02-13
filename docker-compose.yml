@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    tty: true
+    stdin_open: true
+    build: .
+    command: 'iex -S mix'
+    volumes:
+      - .:/opt/power_dnsex

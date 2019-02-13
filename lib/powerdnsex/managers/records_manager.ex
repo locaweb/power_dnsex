@@ -7,7 +7,6 @@ defmodule PowerDNSex.Managers.RecordsManager do
   alias PowerDNSex.Managers.ZonesManager
   alias HTTPoison.Response
 
-
   def create(%Zone{} = zone, %{} = rrset_attrs) do
     rrset_attrs = Map.merge(rrset_attrs, %{changetype: "REPLACE"})
     patch(zone, rrset_attrs)
@@ -45,9 +44,12 @@ defmodule PowerDNSex.Managers.RecordsManager do
 
   defp process_request_response(%Response{body: body, status_code: status}) do
     case status do
-      s when s == 204 -> :ok
+      s when s == 204 ->
+        :ok
+
       s when s < 300 ->
         :ok
+
       s when s >= 300 ->
         error = Poison.decode!(body, as: %Error{})
         {:error, %{error | http_status_code: s}}
@@ -60,7 +62,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
 
   defp patch(%Zone{} = zone, %RRSet{} = rrset) do
     rrset_body = RRSet.as_body(rrset)
-    Logger.info "Request to [#{zone.name}] with params [#{rrset_body}]"
+    Logger.info("Request to [#{zone.name}] with params [#{rrset_body}]")
 
     zone.url
     |> HttpClient.patch!(rrset_body)

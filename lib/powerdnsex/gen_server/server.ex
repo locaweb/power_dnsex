@@ -2,7 +2,11 @@ defmodule PowerDNSex.Server do
   use GenServer
 
   alias PowerDNSex.Managers.{ZonesManager, RecordsManager}
-  alias PowerDNSex.{Models.Zone, Converter}
+  alias PowerDNSex.Converter
+
+  def init(args) do
+    {:ok, args}
+  end
 
   def start_link(name) do
     GenServer.start_link(__MODULE__, :ok, name: name)

@@ -1,5 +1,4 @@
 defmodule PowerDNSex.Managers.ZonesManagerTest do
-
   use ExUnit.Case, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
@@ -11,9 +10,11 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
   @invalid_not_canonical %Zone{name: "not-canonical-domain.tst"}
   @unknown_name "it-will-never-exist.on.the.art."
 
-  @valid_zone_test %Zone{name: "my-domain.art.",
-                         serial: 2_016_060_601,
-                         comments: ["Test comment"] }
+  @valid_zone_test %Zone{
+    name: "my-domain.art.",
+    serial: 2_016_060_601,
+    comments: ["Test comment"]
+  }
 
   @expected_rrset [
     %RRSet{
@@ -21,10 +22,13 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
       ttl: 3600,
       type: "SOA",
       records: [
-        %Record{content: "a.misconfigured.powerdns.server. " <>
-                         "hostmaster.my-domain.art. " <>
-                         "2016060601 10800 3600 604800 3600",
-                disabled: false}
+        %Record{
+          content:
+            "a.misconfigured.powerdns.server. " <>
+              "hostmaster.my-domain.art. " <>
+              "2016060601 10800 3600 604800 3600",
+          disabled: false
+        }
       ]
     },
     %RRSet{
@@ -32,27 +36,31 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
       ttl: 3600,
       type: "NS",
       records: [
-        %Record{content: "ns1.domain.com",
-                disabled: false}
+        %Record{content: "ns1.domain.com", disabled: false}
       ]
     }
   ]
 
-  @expected_zone %Zone{name: "my-domain.art.",
-                       id: "my-domain.art.",
-                       account: "",
-                       serial: 2_016_060_601,
-                       url: "api/v1/servers/localhost/zones/my-domain.art.",
-                       nameservers: ["ns1.domain.com"],
-                       rrsets: @expected_rrset}
+  @expected_zone %Zone{
+    name: "my-domain.art.",
+    id: "my-domain.art.",
+    account: "",
+    serial: 2_016_060_601,
+    url: "api/v1/servers/localhost/zones/my-domain.art.",
+    nameservers: ["ns1.domain.com"],
+    rrsets: @expected_rrset
+  }
 
   setup do
-    Config.set_url
-    Config.set_token
+    Config.set_url()
+    Config.set_token()
 
-    ExVCR.Config.cassette_library_dir("test/support/cassettes",
-                                      "test/support/custom_cassettes")
-    HTTPoison.start
+    ExVCR.Config.cassette_library_dir(
+      "test/support/cassettes",
+      "test/support/custom_cassettes"
+    )
+
+    HTTPoison.start()
   end
 
   describe "ZoneManager.create/2" do

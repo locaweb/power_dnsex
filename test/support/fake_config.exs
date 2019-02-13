@@ -2,7 +2,6 @@ defmodule PowerDNSex.FakeConfig do
   @app_config_token "S3cr37_70k3n"
   @app_config_url "https://my-powerdns.api"
 
-
   def set_url, do: Application.put_env(:powerdnsex, :url, @app_config_url)
   def set_token, do: Application.put_env(:powerdnsex, :token, @app_config_token)
 

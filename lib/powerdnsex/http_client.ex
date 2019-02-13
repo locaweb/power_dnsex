@@ -1,5 +1,5 @@
 defmodule PowerDNSex.HttpClient do
-  @moduledoc"""
+  @moduledoc """
   Client to do http requests for PowerDns API
   """
 
@@ -7,10 +7,10 @@ defmodule PowerDNSex.HttpClient do
 
   alias PowerDNSex.Config
 
-  def process_url(url), do: Config.powerdns_url <> url
+  def process_url(url), do: Config.powerdns_url() <> url
 
-  defp process_request_headers(headers) do
-    custom = ["X-API-Key": Config.powerdns_token]
-    Enum.into(headers, custom)
+  def process_request_headers(headers) do
+    custom = ["X-API-Key": Config.powerdns_token()]
+    Keyword.merge(headers, custom)
   end
 end

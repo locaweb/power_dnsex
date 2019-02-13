@@ -1,0 +1,6 @@
+#!/bin/bash -xe
+
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+$DOCKER_COMPOSE build && \
+$DOCKER_COMPOSE run $(power_dnsex_env) --rm -T web bash -c "mix do deps.clean --unused --unlock, deps.get --all, deps.compile </dev/null"

@@ -1,5 +1,4 @@
 defmodule PowerDNSex.Managers.RecordsManagerTest do
-
   use ExUnit.Case, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
@@ -17,7 +16,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
 
   @valid_zone %Zone{
     name: "my-domain.art.",
-    url: "api/v1/servers/localhost/zones/my-domain.art.", 
+    url: "api/v1/servers/localhost/zones/my-domain.art.",
     rrsets: [@record]
   }
 
@@ -50,19 +49,23 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
   }
 
   setup do
-    Config.set_url
-    Config.set_token
+    Config.set_url()
+    Config.set_token()
 
-    ExVCR.Config.cassette_library_dir("test/support/cassettes",
-      "test/support/custom_cassettes")
-    HTTPoison.start
+    ExVCR.Config.cassette_library_dir(
+      "test/support/cassettes",
+      "test/support/custom_cassettes"
+    )
+
+    HTTPoison.start()
   end
 
   describe "create/2" do
     @tag :records_manager_create
     test "exception given empty zones url" do
       raise_msg = "[Records Manager] Zone URL attribute is empty!"
-      assert_raise RuntimeError, raise_msg, fn() ->
+
+      assert_raise RuntimeError, raise_msg, fn ->
         RecordsManager.create(%Zone{}, %Record{})
       end
     end
@@ -80,9 +83,7 @@ defmodule PowerDNSex.Managers.RecordsManagerTest do
     test "content given attrs of a valid record" do
       use_cassette "records_manager/show/success" do
         zone_name = @valid_zone.name
-        attrs = %{name: "new-record.#{zone_name}",
-                  type: "A",
-                  content: "127.0.0.1"}
+        attrs = %{name: "new-record.#{zone_name}", type: "A", content: "127.0.0.1"}
 
         record = RecordsManager.show(zone_name, attrs)
         assert record.name == attrs.name

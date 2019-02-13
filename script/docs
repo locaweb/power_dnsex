@@ -1,0 +1,5 @@
+#!/bin/bash -xe
+
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+$DOCKER_COMPOSE run --rm -T $(power_dnsex_env) web bash -c "mix docs </dev/null"

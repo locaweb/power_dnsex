@@ -2,14 +2,16 @@ defmodule PowerDNSex.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :powerdnsex,
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     description: description(),
-     package: package(),
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :powerdnsex,
+      version: "0.2.0",
+      elixir: "~> 1.6",
+      description: description(),
+      package: package(),
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps()
+    ]
   end
 
   def application do
@@ -17,9 +19,7 @@ defmodule PowerDNSex.Mixfile do
   end
 
   defp deps do
-    [{:httpoison, "~> 0.13.0"},
-     {:poison, "~> 2.2"},
-     {:exvcr, "~> 0.9.1", only: :test}]
+    [{:httpoison, "~> 1.5.0"}, {:poison, "~> 4.0.1"}, {:exvcr, "~> 0.10.3", only: :test}]
   end
 
   defp description do
@@ -29,9 +29,10 @@ defmodule PowerDNSex.Mixfile do
   end
 
   defp package do
-    [maintainers: ["Rodrigo Coutinho"],
-     licenses: ["MIT"],
-     links: %{"GitHub" => "https://github.com/digaoddc/power_dnsex"}
+    [
+      maintainers: ["Lindolfo Rodrigues"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/locaweb/power_dnsex"}
     ]
   end
 end

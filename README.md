@@ -111,3 +111,35 @@ rrset = PowerDNSex.show_record("example.com", record)
 res = PowerDNSex.delete_record(zone, rrset)
 ```
 
+## Development
+
+### Setup application
+```bash
+$ script/setup
+```
+
+### Run local console (IEX)
+```bash
+$ script/run
+```
+
+### Run tests
+```bash
+$ script/test
+```
+
+#### Run tests to a specific File
+```bash
+$ script/test test/lib/powerdnsex/powerdnsex_test.exs
+```
+
+### Reset environment (clean + setup)
+### YOU WILL LOSE EVERYTHING
+
+Good for then you change the elixir version and need to delete everything and start again
+
+```bash
+$ script/reset
+```
+
+
