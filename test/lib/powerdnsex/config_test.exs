@@ -5,6 +5,7 @@ defmodule PowerDNSex.ConfigTest do
 
   setup do: Config.set_url()
   setup do: Config.set_token()
+  setup do: Config.set_timeout()
   setup do: Config.set_url() && Config.set_token()
 
   describe "Config.powerdns_token/0" do
@@ -56,4 +57,22 @@ defmodule PowerDNSex.ConfigTest do
       end
     end
   end
+
+  describe "Config.powerdns_timeout/0" do
+    @tag :configs
+    test "using application config" do
+      assert PowerDNSex.Config.powerdns_timeout() == :timer.seconds(Config.timeout())
+    end
+
+    @tag :configs
+    test "given none timeout config" do
+      Application.delete_env(:powerdnsex, :timeout)
+      expected_error = "[PowerDNSex] PowerDNS timeout not configured."
+
+      assert_raise RuntimeError, expected_error, fn ->
+        PowerDNSex.Config.powerdns_timeout()
+      end
+    end
+  end
+
 end

@@ -1,6 +1,7 @@
 defmodule PowerDNSex.Config do
   defstruct url: "",
-            token: ""
+            token: "",
+            timeout: "60"
 
   alias PowerDNSex.Config
 
@@ -19,6 +20,8 @@ defmodule PowerDNSex.Config do
   end
 
   def powerdns_token, do: data().token
+
+  def powerdns_timeout, do: :timer.seconds(data().timeout)
 
   def valid?(), do: powerdns_url() && powerdns_token()
 

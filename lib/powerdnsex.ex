@@ -98,5 +98,5 @@ defmodule PowerDNSex do
   # Private #
   ###########
 
-  defp call(params), do: GenServer.call(@name, params)
+  defp call(params), do: GenServer.call(@name, params, Config.powerdns_timeout)
 end
