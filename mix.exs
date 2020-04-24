@@ -4,7 +4,7 @@ defmodule PowerDNSex.Mixfile do
   def project do
     [
       app: :powerdnsex,
-      version: "0.4.0",
+      version: "0.4.1",
       elixir: "~> 1.6",
       description: description(),
       package: package(),
@@ -15,7 +15,7 @@ defmodule PowerDNSex.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :httpoison], mod: {PowerDNSex, []}]
+    [applications: [:logger, :httpoison, :poolboy], mod: {PowerDNSex, []}]
   end
 
   defp deps do
