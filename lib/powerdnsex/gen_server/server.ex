@@ -8,8 +8,8 @@ defmodule PowerDNSex.Server do
     {:ok, args}
   end
 
-  def start_link(name) do
-    GenServer.start_link(__MODULE__, :ok, name: name)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, :ok)
   end
 
   ###
