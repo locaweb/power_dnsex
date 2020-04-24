@@ -3,8 +3,8 @@ defmodule PowerDNSexTest do
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
   setup do
-    Config.set_url()
-    Config.set_token()
+    PowerDNSex.FakeConfig.set_url()
+    PowerDNSex.FakeConfig.set_token()
 
     ExVCR.Config.cassette_library_dir(
       "test/support/cassettes",

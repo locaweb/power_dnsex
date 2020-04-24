@@ -4,7 +4,7 @@ defmodule PowerDNSex.Mixfile do
   def project do
     [
       app: :powerdnsex,
-      version: "0.2.0",
+      version: "0.4.0",
       elixir: "~> 1.6",
       description: description(),
       package: package(),
@@ -20,8 +20,9 @@ defmodule PowerDNSex.Mixfile do
 
   defp deps do
     [
+      {:poolboy, "~> 1.5"},
       {:httpoison, "~> 1.5.0"},
-      {:poison, "~> 4.0.1"},
+      {:poison, "~> 3.0 or ~> 4.0.1"},
       {:exvcr, "~> 0.10.3", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]

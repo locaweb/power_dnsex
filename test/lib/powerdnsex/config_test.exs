@@ -1,10 +1,11 @@
 defmodule PowerDNSex.ConfigTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias PowerDNSex.FakeConfig, as: Config
 
   setup do: Config.set_url()
   setup do: Config.set_token()
+  setup do: Config.set_timeout()
   setup do: Config.set_url() && Config.set_token()
 
   describe "Config.powerdns_token/0" do
@@ -54,6 +55,25 @@ defmodule PowerDNSex.ConfigTest do
       assert_raise RuntimeError, expected_error, fn ->
         PowerDNSex.Config.powerdns_url()
       end
+    end
+  end
+
+  describe "Config.powerdns_timeout/0" do
+    @tag :configs
+    test "using application config" do
+      assert PowerDNSex.Config.powerdns_timeout() == :timer.seconds(Config.timeout())
+    end
+
+    @tag :configs
+    test "uses default timeout" do
+      existing = Application.get_env(:powerdnsex, :timeout)
+      on_exit fn ->
+        Application.put_env(:powerdnsex, :timeout, existing)
+      end
+
+      Application.delete_env(:powerdnsex, :timeout)
+
+      assert PowerDNSex.Config.powerdns_timeout() == :timer.seconds(60)
     end
   end
 end

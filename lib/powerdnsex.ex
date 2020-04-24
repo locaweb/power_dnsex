@@ -9,10 +9,8 @@ defmodule PowerDNSex do
 
   @spec start() :: GenServer.on_start()
   @doc false
-  def start() do
-    import Supervisor.Spec
-
-    children = [worker(Server, [@name])]
+  def start do
+    children = [:poolboy.child_spec(:pool, pool_config())]
     options = [strategy: :one_for_one, name: :"#{@name}.Supervisor"]
 
     try do
@@ -98,5 +96,18 @@ defmodule PowerDNSex do
   # Private #
   ###########
 
-  defp call(params), do: GenServer.call(@name, params)
+  defp pool_config do
+    [
+      name: {:local, @name},
+      worker_module: Server,
+      size: Application.get_env(:powerdnsex, :pool_size, 20),
+      max_overflow: Application.get_env(:powerdnsex, :pool_overflow, 8)
+    ]
+  end
+
+  defp call(params) do
+    :poolboy.transaction(@name, fn pid ->
+      GenServer.call(pid, params, Config.powerdns_timeout)
+    end)
+  end
 end
