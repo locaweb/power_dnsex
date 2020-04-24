@@ -107,7 +107,7 @@ defmodule PowerDNSex do
 
   defp call(params) do
     :poolboy.transaction(@name, fn pid ->
-      GenServer.call(pid, params)
+      GenServer.call(pid, params, Config.powerdns_timeout)
     end)
   end
 end
