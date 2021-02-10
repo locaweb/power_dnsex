@@ -48,6 +48,10 @@ defmodule PowerDNSex do
     call({:show_zone, zone, server_name})
   end
 
+  def get_zone(zone, server_name \\ @default_server) when is_binary(zone) do
+    call({:get_zone, zone, server_name})
+  end
+
   @spec delete_zone(String.t(), String.t()) :: :ok | {:error, String.t()}
   @doc """
   Delete specific Zone on PowerDNS

@@ -86,6 +86,16 @@ defmodule PowerDNSex.Managers.ZonesManagerTest do
     end
   end
 
+  describe "ZonesManager.get_zone/1" do
+    @tag :zones_manager_get_zone
+    test "type of return given a correct zone name" do
+      use_cassette "zones_manager/show/success" do
+        {:ok, zone} = ZonesManager.get_zone(@valid_zone_test.name)
+        assert zone == @expected_zone
+      end
+    end
+  end
+
   describe "ZonesManager.show/2" do
     @tag :zones_manager_show
     test "type of return given a correct zone name" do

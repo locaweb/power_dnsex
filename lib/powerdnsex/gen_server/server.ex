@@ -24,6 +24,10 @@ defmodule PowerDNSex.Server do
     {:reply, ZonesManager.show(zone, server_name), state}
   end
 
+  def handle_call({:get_zone, zone, server_name}, _from, state) do
+    {:reply, ZonesManager.get_zone(zone, server_name), state}
+  end
+
   def handle_call({:delete_zone, zone, server_name}, _from, state) do
     {:reply, ZonesManager.delete(zone, server_name), state}
   end
