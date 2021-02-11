@@ -48,6 +48,14 @@ defmodule PowerDNSex do
     call({:show_zone, zone, server_name})
   end
 
+  @spec get_zone(String.t(), String.t()) :: :ok | {:error, String.t()}
+  @doc """
+  Show / Retrive info of the specific Zone without RRSets
+  """
+  def get_zone(zone, server_name \\ @default_server) when is_binary(zone) do
+    call({:get_zone, zone, server_name})
+  end
+
   @spec delete_zone(String.t(), String.t()) :: :ok | {:error, String.t()}
   @doc """
   Delete specific Zone on PowerDNS
@@ -84,6 +92,14 @@ defmodule PowerDNSex do
     call({:update_record, zone, rrset_attrs})
   end
 
+  @spec put_record(Zone.t(), struct) :: :ok | {:error, String.t()}
+  @doc """
+  Update Record of the given Zone
+  """
+  def put_record(%Zone{} = zone, %{} = rrset_attrs) do
+    call({:put_record, zone, rrset_attrs})
+  end
+
   @spec delete_record(Zone.t(), struct) :: :ok | {:error, String.t()}
   @doc """
   Delete specific Record of given Zone
@@ -107,7 +123,7 @@ defmodule PowerDNSex do
 
   defp call(params) do
     :poolboy.transaction(@name, fn pid ->
-      GenServer.call(pid, params, Config.powerdns_timeout)
+      GenServer.call(pid, params, Config.powerdns_timeout())
     end)
   end
 end

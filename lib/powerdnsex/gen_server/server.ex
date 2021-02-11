@@ -24,6 +24,10 @@ defmodule PowerDNSex.Server do
     {:reply, ZonesManager.show(zone, server_name), state}
   end
 
+  def handle_call({:get_zone, zone, server_name}, _from, state) do
+    {:reply, ZonesManager.get_zone(zone, server_name), state}
+  end
+
   def handle_call({:delete_zone, zone, server_name}, _from, state) do
     {:reply, ZonesManager.delete(zone, server_name), state}
   end
@@ -41,6 +45,11 @@ defmodule PowerDNSex.Server do
   def handle_call({:update_record, zone, rrset_attrs}, _from, state) do
     attrs = Converter.keys_to_atom(rrset_attrs)
     {:reply, RecordsManager.update(zone, attrs), state}
+  end
+
+  def handle_call({:put_record, zone, rrset_attrs}, _from, state) do
+    attrs = Converter.keys_to_atom(rrset_attrs)
+    {:reply, RecordsManager.put(zone, attrs), state}
   end
 
   def handle_call({:delete_record, zone, rrset_attrs}, _from, state) do

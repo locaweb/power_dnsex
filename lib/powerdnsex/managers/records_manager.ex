@@ -12,6 +12,10 @@ defmodule PowerDNSex.Managers.RecordsManager do
     patch(zone, rrset_attrs)
   end
 
+  def put(%Zone{} = zone, %{} = rrset_attrs) do
+    create(zone, rrset_attrs)
+  end
+
   def show(zone_name, %{} = rrset_attrs) do
     case ZonesManager.show(zone_name) do
       {:ok, zone} -> RRSet.find(zone.rrsets, rrset_attrs)

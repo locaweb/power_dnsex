@@ -56,6 +56,9 @@ zone_model = %PowerDNSex.Models.Zone{
 # SHOW ZONE:
 {:ok, zone} = PowerDNSex.show_zone("example.com")
 
+# SHOW ZONE without RRSets:
+{:ok, zone} = PowerDNSex.get_zone("example.com")
+
 # DELETE ZONE:
 res = PowerDNSex.delete_zone("example.com")
 ```

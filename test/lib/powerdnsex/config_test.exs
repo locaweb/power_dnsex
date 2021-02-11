@@ -67,9 +67,10 @@ defmodule PowerDNSex.ConfigTest do
     @tag :configs
     test "uses default timeout" do
       existing = Application.get_env(:powerdnsex, :timeout)
-      on_exit fn ->
+
+      on_exit(fn ->
         Application.put_env(:powerdnsex, :timeout, existing)
-      end
+      end)
 
       Application.delete_env(:powerdnsex, :timeout)
 

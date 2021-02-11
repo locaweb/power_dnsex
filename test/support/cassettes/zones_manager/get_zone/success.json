@@ -1,0 +1,28 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "X-API-Key": "S3cr37_70k3n"
+      },
+      "method": "get",
+      "options": {
+        "ssl_options": {
+          "versions": [
+            "tlsv1.1"
+          ]
+        },
+        "recv_timeout": 300000
+      },
+      "request_body": "",
+      "url": "https://my-powerdns.api/api/v1/servers/localhost/zones/my-domain.art."
+    },
+    "response": {
+      "binary": false,
+      "body": "nxdomain",
+      "headers": [],
+      "status_code": null,
+      "type": "error"
+    }
+  }
+]
