@@ -15,8 +15,7 @@ defmodule PowerDNSex.HttpClient do
   end
 
   def process_request_options(options) do
-    custom_options = [ssl: [{:versions, [:'tlsv1.1']}], recv_timeout: Config.powerdns_timeout()]
+    custom_options = [ssl: [{:versions, [:"tlsv1.1"]}], recv_timeout: Config.powerdns_timeout()]
     Keyword.merge(options, custom_options)
   end
-
 end

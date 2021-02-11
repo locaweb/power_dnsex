@@ -47,7 +47,7 @@ defmodule PowerDNSex.Server do
     {:reply, RecordsManager.update(zone, attrs), state}
   end
 
-  def handle_call({:update_record, zone, rrset_attrs}, _from, state) do
+  def handle_call({:put_record, zone, rrset_attrs}, _from, state) do
     attrs = Converter.keys_to_atom(rrset_attrs)
     {:reply, RecordsManager.put(zone, attrs), state}
   end

@@ -21,11 +21,11 @@ defmodule PowerDNSex.Managers.ZonesManager do
   end
 
   def get(zone_name, server_name \\ @default_server)
-    when is_bitstring(zone_name) do
-  server_name
-  |> zone_path_light(zone_name)
-  |> HttpClient.get!()
-  |> process_request_response
+      when is_bitstring(zone_name) do
+    server_name
+    |> zone_path_light(zone_name)
+    |> HttpClient.get!()
+    |> process_request_response
   end
 
   def delete(zone_name, server_name \\ @default_server)

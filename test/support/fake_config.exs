@@ -7,7 +7,6 @@ defmodule PowerDNSex.FakeConfig do
   def set_token, do: Application.put_env(:powerdnsex, :token, @app_config_token)
   def set_timeout, do: Application.put_env(:powerdnsex, :timeout, @app_config_timeout)
 
-
   def token, do: @app_config_token
   def url, do: @app_config_url
   def timeout, do: @app_config_timeout
