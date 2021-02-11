@@ -4,7 +4,7 @@ defmodule PowerDNSex.Mixfile do
   def project do
     [
       app: :powerdnsex,
-      version: "0.4.1",
+      version: "0.5.0",
       elixir: "~> 1.6",
       description: description(),
       package: package(),
