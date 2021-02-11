@@ -15,7 +15,7 @@ defmodule PowerDNSex.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :httpoison, :poolboy], mod: {PowerDNSex, []}]
+    [applications: [:logger, :poison, :httpoison, :poolboy], mod: {PowerDNSex, []}]
   end
 
   defp deps do
