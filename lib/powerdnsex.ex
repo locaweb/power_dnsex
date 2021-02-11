@@ -87,6 +87,9 @@ defmodule PowerDNSex do
   def update_record(%Zone{} = zone, %{} = rrset_attrs) do
     call({:update_record, zone, rrset_attrs})
   end
+  def put_record(%Zone{} = zone, %{} = rrset_attrs) do
+    call({:put_record, zone, rrset_attrs})
+  end
 
   @spec delete_record(Zone.t(), struct) :: :ok | {:error, String.t()}
   @doc """

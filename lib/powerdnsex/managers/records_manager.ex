@@ -12,7 +12,7 @@ defmodule PowerDNSex.Managers.RecordsManager do
     patch(zone, rrset_attrs)
   end
 
-  def put_zone(%Zone{} = zone, %{} = rrset_attrs) do
+  def put(%Zone{} = zone, %{} = rrset_attrs) do
     create(zone, rrset_attrs)
   end
 

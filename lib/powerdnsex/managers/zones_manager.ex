@@ -20,7 +20,7 @@ defmodule PowerDNSex.Managers.ZonesManager do
     |> process_request_response
   end
 
-  def get_zone(zone_name, server_name \\ @default_server)
+  def get(zone_name, server_name \\ @default_server)
     when is_bitstring(zone_name) do
   server_name
   |> zone_path_light(zone_name)
