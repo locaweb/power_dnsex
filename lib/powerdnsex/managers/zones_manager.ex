@@ -48,12 +48,8 @@ defmodule PowerDNSex.Managers.ZonesManager do
     zone_path(server_name) <> "/#{zone_name}"
   end
 
-  defp zone_path_light(server_name) when is_bitstring(server_name) do
-    "api/v1/servers/#{server_name}/zones?rrsets=false"
-  end
-
   defp zone_path_light(server_name, zone_name) when is_bitstring(server_name) do
-    zone_path(server_name) <> "/#{zone_name}?rrsets=false"
+    "api/v1/servers/#{server_name}/zones/#{zone_name}?rrsets=false"
   end
 
   defp process_request_response(%Response{body: body, status_code: status}) do
