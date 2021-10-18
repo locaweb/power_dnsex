@@ -20,6 +20,7 @@ defmodule PowerDNSex.Mixfile do
 
   defp deps do
     [
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:poolboy, "~> 1.5"},
       {:httpoison, "~> 1.5.0"},
       {:poison, "~> 3.0 or ~> 4.0.1"},
